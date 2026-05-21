@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { BARCODE_TYPES, suggestBarcodeFormat } from '../utils/barcodeUtils'
+import { BARCODE_TYPES } from '../utils/barcodeUtils'
 
 const QTY_NAMES = ['qty', 'quantity']
 
@@ -12,19 +12,14 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
 
   const qtyCol = headers.find((h) => QTY_NAMES.includes(h.toLowerCase()))
 
+  const isImageCol = (h) => /image/i.test(h)
+
   useEffect(() => {
     if (headers.length > 0) {
       const init = {}
-      headers.forEach((h) => { init[h] = true })
+      headers.forEach((h) => { init[h] = false })
       setSelected(init)
-      setBarcodeCol(headers[0])
-
-      const sampleValues = rows.slice(0, 10).map((r) => String(r[headers[0]] ?? '').replace(/\s/g, ''))
-      const digitCounts = sampleValues.filter(Boolean).map((v) => v.length)
-      if (digitCounts.length > 0) {
-        const avgLen = Math.round(digitCounts.reduce((a, b) => a + b, 0) / digitCounts.length)
-        setBarcodeType(suggestBarcodeFormat(avgLen))
-      }
+      setBarcodeCol(headers.find((h) => !isImageCol(h)) || headers[0])
     }
   }, [headers, rows])
 
@@ -39,6 +34,8 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
     })
   }
 
+  const visibleHeaders = headers.filter((h) => !isImageCol(h))
+
   const selectedCount = Object.values(selected).filter(Boolean).length
 
   return (
@@ -48,7 +45,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       <div className="bg-white rounded-lg border p-4">
         <h3 className="font-semibold mb-3">Columns in your file</h3>
         <div className="flex flex-wrap gap-2">
-          {headers.map((h) => (
+          {visibleHeaders.map((h) => (
             <button
               key={h}
               onClick={() => toggleColumn(h)}
@@ -69,7 +66,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
           onChange={(e) => setBarcodeCol(e.target.value)}
           className="w-full p-2 border rounded-lg text-sm"
         >
-          {headers.filter((h) => selected[h]).map((h) => (
+          {visibleHeaders.filter((h) => selected[h]).map((h) => (
             <option key={h} value={h}>{h}</option>
           ))}
         </select>
@@ -112,7 +109,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
           <h3 className="font-semibold mb-3">Text style (optional)</h3>
           <p className="text-xs text-gray-500 mb-2">Make a column bold or large (e.g. price)</p>
           <div className="space-y-2">
-            {headers.filter((h) => selected[h] && h !== barcodeCol).map((h) => (
+            {visibleHeaders.filter((h) => selected[h] && h !== barcodeCol).map((h) => (
               <div key={h} className="flex items-center justify-between text-sm">
                 <span>{h}</span>
                 <div className="flex gap-2">
