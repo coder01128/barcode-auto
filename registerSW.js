@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/barcode-auto/sw.js', { scope: '/barcode-auto/' })})}
