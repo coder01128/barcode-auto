@@ -1,0 +1,37 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "BarcodeAuto" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Spreadsheet to Labels. Instantly.
+      - generic [ref=e9]:
+        - generic [ref=e10]: 20 labels left
+        - link "Upgrade" [ref=e11] [cursor=pointer]:
+          - /url: "#pricing"
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: Upload
+      - generic [ref=e17]: —
+    - generic [ref=e18]:
+      - generic [ref=e19]: "2"
+      - generic [ref=e20]: Columns
+      - generic [ref=e21]: —
+    - generic [ref=e22]:
+      - generic [ref=e23]: "3"
+      - generic [ref=e24]: Dimensions
+      - generic [ref=e25]: —
+    - generic [ref=e26]:
+      - generic [ref=e27]: "4"
+      - generic [ref=e28]: Layout
+      - generic [ref=e29]: —
+    - generic [ref=e30]:
+      - generic [ref=e31]: "5"
+      - generic [ref=e32]: Generate
+  - main [ref=e33]:
+    - generic [ref=e36] [cursor=pointer]:
+      - img [ref=e37]
+      - paragraph [ref=e39]: Drop your spreadsheet here
+      - paragraph [ref=e40]: or click to browse. Supports .xlsx, .xls, .csv
+  - contentinfo [ref=e41]:
+    - paragraph [ref=e42]: All processing happens in your browser. No data uploaded to servers.

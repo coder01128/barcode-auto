@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip = [System.IO.Compression.ZipFile]::OpenRead\\('C:\\\\ccode\\\\projects\\\\barcode-auto\\\\BarcodeAuto_PRD_v1.docx'\\); $entry = $zip.GetEntry\\('word/document.xml'\\); $reader = New-Object System.IO.StreamReader\\($entry.Open\\(\\)\\); $xml = $reader.ReadToEnd\\(\\); $reader.Dispose\\(\\); $zip.Dispose\\(\\); $xml)",
+      "PowerShell(Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip = [System.IO.Compression.ZipFile]::OpenRead\\('C:\\\\ccode\\\\projects\\\\barcode-auto\\\\BarcodeAuto_PRD_v1.docx'\\); $entry = $zip.GetEntry\\('word/document.xml'\\); $reader = New-Object System.IO.StreamReader\\($entry.Open\\(\\)\\); $xml = $reader.ReadToEnd\\(\\); $reader.Dispose\\(\\); $zip.Dispose\\(\\); $text = [System.Text.RegularExpressions.Regex]::Replace\\($xml, '<[^>]+>', \"`n\"\\); $lines = $text -split \"`n\" | Where-Object { $_.Trim\\(\\) -ne \"\" }; $lines -join \"`r`n\")",
+      "Bash(npm create *)",
+      "Bash(mv barcodeauto-temp/* .)",
+      "Bash(mv barcodeauto-temp/.* .)",
+      "Bash(rm -rf barcodeauto-temp)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "PowerShell(Get-ChildItem -Recurse -File C:\\\\ccode\\\\projects\\\\barcode-auto\\\\src\\\\ | ForEach-Object { $_.FullName.Replace\\('C:\\\\ccode\\\\projects\\\\barcode-auto\\\\', ''\\) })",
+      "Bash(npx vite *)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_run_code_unsafe",
+      "mcp__playwright__browser_select_option",
+      "mcp__playwright__browser_handle_dialog",
+      "WebFetch(domain:localhost)",
+      "mcp__playwright__browser_evaluate"
+    ]
+  }
+}

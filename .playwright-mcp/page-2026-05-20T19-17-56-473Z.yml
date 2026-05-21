@@ -1,0 +1,76 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "BarcodeAuto" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Spreadsheet to Labels. Instantly.
+      - generic [ref=e9]:
+        - generic [ref=e10]: 14 labels left
+        - link "Upgrade" [ref=e11] [cursor=pointer]:
+          - /url: "#pricing"
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: Upload
+      - generic [ref=e17]: —
+    - generic [ref=e18]:
+      - generic [ref=e19]: "2"
+      - generic [ref=e20]: Columns
+      - generic [ref=e21]: —
+    - generic [ref=e22]:
+      - generic [ref=e23]: "3"
+      - generic [ref=e24]: Dimensions
+      - generic [ref=e25]: —
+    - generic [ref=e26]:
+      - generic [ref=e27]: "4"
+      - generic [ref=e28]: Layout
+      - generic [ref=e29]: —
+    - generic [ref=e30]:
+      - generic [ref=e31]: "5"
+      - generic [ref=e32]: Generate
+  - main [ref=e33]:
+    - generic [ref=e137]:
+      - heading "Label dimensions" [level=2] [ref=e138]
+      - generic [ref=e139]:
+        - heading "Common sizes" [level=3] [ref=e140]
+        - generic [ref=e141]:
+          - button "40×30mm" [ref=e142]
+          - button "50×25mm" [ref=e143]
+          - button "50×30mm" [ref=e144]
+          - button "60×40mm" [ref=e145]
+          - button "100×150mm (4×6in)" [ref=e146]
+          - button "Shipping 100×70mm" [ref=e147]
+      - generic [ref=e148]:
+        - heading "Enter dimensions (mm)" [level=3] [ref=e149]
+        - generic [ref=e150]:
+          - generic [ref=e151]:
+            - generic [ref=e152]: Width (mm)
+            - paragraph [ref=e153]: measured across the roll
+            - spinbutton [ref=e154]: "40"
+          - generic [ref=e155]:
+            - generic [ref=e156]: Height (mm)
+            - paragraph [ref=e157]: measured along feed direction
+            - spinbutton [ref=e158]: "30"
+          - generic [ref=e159]:
+            - generic [ref=e160]: Gap
+            - spinbutton [ref=e161]: "3"
+      - generic [ref=e162]:
+        - heading "Preview" [level=3] [ref=e163]
+        - img [ref=e165]:
+          - generic [ref=e168]: roll
+          - generic [ref=e170]: label
+          - generic [ref=e171]: 40×30mm
+          - generic [ref=e172]: ← Width →
+          - generic [ref=e173]: ← Feed →
+        - generic [ref=e175]:
+          - img [ref=e176]:
+            - generic [ref=e178]: 40×30mm label
+          - generic [ref=e180]: 3mm
+          - img [ref=e181]:
+            - generic [ref=e183]: next label
+        - paragraph [ref=e184]: Pitch = 40mm × 33mm (label + gap). Width is across the roll, height is along the feed direction.
+      - generic [ref=e185]:
+        - button "Back" [ref=e186]
+        - 'button "Next: Choose layout" [ref=e187]'
+  - contentinfo [ref=e41]:
+    - paragraph [ref=e42]: All processing happens in your browser. No data uploaded to servers.

@@ -1,0 +1,70 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "BarcodeAuto" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Spreadsheet to Labels. Instantly.
+      - generic [ref=e9]:
+        - generic [ref=e10]: 14 labels left
+        - link "Upgrade" [ref=e11] [cursor=pointer]:
+          - /url: "#pricing"
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: Upload
+      - generic [ref=e17]: —
+    - generic [ref=e18]:
+      - generic [ref=e19]: "2"
+      - generic [ref=e20]: Columns
+      - generic [ref=e21]: —
+    - generic [ref=e22]:
+      - generic [ref=e23]: "3"
+      - generic [ref=e24]: Dimensions
+      - generic [ref=e25]: —
+    - generic [ref=e26]:
+      - generic [ref=e27]: "4"
+      - generic [ref=e28]: Layout
+      - generic [ref=e29]: —
+    - generic [ref=e30]:
+      - generic [ref=e31]: "5"
+      - generic [ref=e32]: Generate
+  - main [ref=e33]:
+    - generic [ref=e188]:
+      - heading "Choose a layout" [level=2] [ref=e189]
+      - paragraph [ref=e190]: Select how your labels should look
+      - generic [ref=e191]:
+        - generic [ref=e192] [cursor=pointer]:
+          - heading "Stacked" [level=3] [ref=e193]
+          - paragraph [ref=e194]: Barcode bottom, text stacked above
+          - img [ref=e195]:
+            - generic [ref=e197]: Product…
+            - generic [ref=e198]: Size
+            - generic [ref=e199]: Retail …
+            - generic [ref=e200]: QTY
+        - generic [ref=e237] [cursor=pointer]:
+          - heading "Side by Side" [level=3] [ref=e238]
+          - paragraph [ref=e239]: Barcode right, text left
+          - img [ref=e240]:
+            - generic [ref=e242]: Product…
+            - generic [ref=e243]: Size
+            - generic [ref=e244]: Retail …
+            - generic [ref=e245]: QTY
+        - generic [ref=e264] [cursor=pointer]:
+          - heading "Compact" [level=3] [ref=e265]
+          - paragraph [ref=e266]: "Minimal: barcode + 2 key fields"
+          - img [ref=e267]:
+            - generic [ref=e269]: Product…
+            - generic [ref=e270]: Size
+        - generic [ref=e307] [cursor=pointer]:
+          - heading "Price Tag" [level=3] [ref=e308]
+          - paragraph [ref=e309]: Barcode top, price prominent, details below
+          - img [ref=e310]:
+            - generic [ref=e344]: Product…
+            - generic [ref=e345]: Size
+            - generic [ref=e346]: Retail …
+            - generic [ref=e347]: QTY
+      - generic [ref=e348]:
+        - button "Back" [ref=e349]
+        - 'button "Next: Generate PDF" [ref=e350]'
+  - contentinfo [ref=e41]:
+    - paragraph [ref=e42]: All processing happens in your browser. No data uploaded to servers.

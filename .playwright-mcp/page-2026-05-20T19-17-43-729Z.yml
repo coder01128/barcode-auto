@@ -1,0 +1,108 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "BarcodeAuto" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Spreadsheet to Labels. Instantly.
+      - generic [ref=e9]:
+        - generic [ref=e10]: 14 labels left
+        - link "Upgrade" [ref=e11] [cursor=pointer]:
+          - /url: "#pricing"
+  - generic [ref=e13]:
+    - generic [ref=e14]:
+      - generic [ref=e15]: "1"
+      - generic [ref=e16]: Upload
+      - generic [ref=e17]: —
+    - generic [ref=e18]:
+      - generic [ref=e19]: "2"
+      - generic [ref=e20]: Columns
+      - generic [ref=e21]: —
+    - generic [ref=e22]:
+      - generic [ref=e23]: "3"
+      - generic [ref=e24]: Dimensions
+      - generic [ref=e25]: —
+    - generic [ref=e26]:
+      - generic [ref=e27]: "4"
+      - generic [ref=e28]: Layout
+      - generic [ref=e29]: —
+    - generic [ref=e30]:
+      - generic [ref=e31]: "5"
+      - generic [ref=e32]: Generate
+  - main [ref=e33]:
+    - generic [ref=e74]:
+      - heading "Choose label columns" [level=2] [ref=e75]
+      - generic [ref=e76]:
+        - heading "Columns in your file" [level=3] [ref=e77]
+        - generic [ref=e78]:
+          - button "Product Name" [ref=e79]
+          - button "Size" [ref=e80]
+          - button "Retail Price" [ref=e81]
+          - button "Barcode" [ref=e82]
+          - button "QTY" [ref=e83]
+      - generic [ref=e84]:
+        - heading "Which column has the barcode number?" [level=3] [ref=e85]
+        - combobox [ref=e86]:
+          - option "Product Name" [selected]
+          - option "Size"
+          - option "Retail Price"
+          - option "Barcode"
+          - option "QTY"
+      - generic [ref=e87]:
+        - heading "Barcode format" [level=3] [ref=e88]
+        - combobox [ref=e89]:
+          - option "EAN-13"
+          - option "Code 128" [selected]
+          - option "UPC-A"
+          - option "Code 39"
+          - option "QR Code"
+      - generic [ref=e90]:
+        - heading "Quantity column detected" [level=3] [ref=e91]
+        - paragraph [ref=e92]: Found "QTY" column — use it to print multiple copies per item.
+        - generic [ref=e93]:
+          - checkbox "Use QTY column to print multiple copies per item" [checked] [ref=e94]
+          - text: Use QTY column to print multiple copies per item
+      - generic [ref=e95]:
+        - heading "Text style (optional)" [level=3] [ref=e96]
+        - paragraph [ref=e97]: Make a column bold or large (e.g. price)
+        - generic [ref=e98]:
+          - generic [ref=e99]:
+            - generic [ref=e100]: Size
+            - generic [ref=e101]:
+              - generic [ref=e102]:
+                - checkbox "Bold" [ref=e103]
+                - text: Bold
+              - generic [ref=e104]:
+                - checkbox "Large" [ref=e105]
+                - text: Large
+          - generic [ref=e106]:
+            - generic [ref=e107]: Retail Price
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - checkbox "Bold" [ref=e110]
+                - text: Bold
+              - generic [ref=e111]:
+                - checkbox "Large" [ref=e112]
+                - text: Large
+          - generic [ref=e113]:
+            - generic [ref=e114]: Barcode
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - checkbox "Bold" [ref=e117]
+                - text: Bold
+              - generic [ref=e118]:
+                - checkbox "Large" [ref=e119]
+                - text: Large
+          - generic [ref=e120]:
+            - generic [ref=e121]: QTY
+            - generic [ref=e122]:
+              - generic [ref=e123]:
+                - checkbox "Bold" [ref=e124]
+                - text: Bold
+              - generic [ref=e125]:
+                - checkbox "Large" [ref=e126]
+                - text: Large
+      - generic [ref=e127]:
+        - button "Back" [ref=e128]
+        - 'button "Next: Set label size (5 columns)" [ref=e129]'
+  - contentinfo [ref=e41]:
+    - paragraph [ref=e42]: All processing happens in your browser. No data uploaded to servers.
