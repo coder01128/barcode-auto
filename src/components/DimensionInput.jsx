@@ -55,7 +55,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
               <button
                 key={p.label}
                 onClick={() => handlePreset(p)}
-                className={`px-3 py-1.5 text-sm border rounded-lg transition-all duration-200 ${
+                className={`px-3 py-1.5 text-sm border rounded-lg transition-all duration-200 active:scale-[0.95] ${
                   sel
                     ? 'bg-accent text-white border-accent shadow-sm'
                     : 'hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 dark:border-neutral-600'
@@ -110,7 +110,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
       </div>
 
       <div className="flex justify-end">
-        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-neutral-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200">
+        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-neutral-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200 active:scale-[0.97]">
           <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
@@ -168,7 +168,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200">
+        <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
           Back
         </button>
         <button

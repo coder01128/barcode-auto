@@ -79,7 +79,7 @@ export default function FileUpload({ onParsed }) {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={handleClick}
-        className={`border-[3px] border-dashed rounded-lg p-10 text-center cursor-pointer transition-all duration-200 ${
+        className={`border-[3px] border-dashed rounded-lg p-10 text-center cursor-pointer transition-all duration-200 active:scale-[0.99] ${
           dragOver ? 'border-accent bg-orange-50 dark:bg-orange-900/20' : 'border-neutral-400 dark:border-neutral-500 hover:border-neutral-500 dark:hover:border-neutral-400'
         }`}
       >
@@ -131,7 +131,7 @@ export default function FileUpload({ onParsed }) {
           </div>
           <button
             onClick={handleConfirm}
-            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#1A1A1A] hover:shadow-md transition-colors"
+            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#1A1A1A] hover:shadow-md transition-all duration-200 active:scale-[0.97]"
           >
             This looks good — let's build the label
           </button>

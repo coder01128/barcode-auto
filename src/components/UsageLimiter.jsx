@@ -12,11 +12,11 @@ export default function UsageLimiter({ labelCount, onUpgrade }) {
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           onClick={onUpgrade}
-          className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] transition-colors"
+          className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] transition-all duration-200 active:scale-[0.97]"
         >
           Single batch — $1.99
         </button>
-        <button className="px-6 py-2 border border-neutral-300 rounded-lg font-medium hover:bg-neutral-50 transition-colors">
+        <button className="px-6 py-2 border border-neutral-300 rounded-lg font-medium hover:bg-neutral-50 transition-all duration-200 active:scale-[0.97]">
           Pro Monthly — $9.99/mo
         </button>
       </div>

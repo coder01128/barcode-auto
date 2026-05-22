@@ -143,23 +143,23 @@ export default function App() {
       </header>
 
       {/* Step indicator */}
-      <div className="max-w-[800px] mx-auto px-4 py-4">
-        <div className="flex items-start justify-center gap-0 sm:gap-1 text-sm">
+      <div className="max-w-[900px] mx-auto px-2 sm:px-4 py-6">
+        <div className="flex items-start justify-center gap-1 sm:gap-2">
           {STEPS.map((s, i) => (
-            <div key={s} className="flex items-center gap-0 sm:gap-1">
-              {i > 0 && <span className="text-neutral-300 dark:text-neutral-600 mt-3">—</span>}
-              <div className="flex flex-col items-center gap-0.5 min-w-0">
-                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-colors ${
-                  i <= step ? 'bg-accent text-white' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
+            <div key={s} className="flex items-center gap-1 sm:gap-2">
+              {i > 0 && <span className="text-neutral-300 dark:text-neutral-600 mt-6 text-sm sm:text-base">—</span>}
+              <div className="flex flex-col items-center gap-1 min-w-0">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-base sm:text-lg font-bold shrink-0 transition-all duration-200 active:scale-[0.97] ${
+                  i <= step ? 'bg-accent text-white shadow-md' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
                 }`}>
                   {i + 1}
                 </div>
-                <span className={`text-[10px] sm:text-xs font-semibold leading-tight text-center transition-colors ${
+                <span className={`text-sm sm:text-base font-bold leading-tight text-center transition-colors ${
                   i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-neutral-400 dark:text-neutral-500'
                 }`}>
                   {s.charAt(0).toUpperCase() + s.slice(1)}
                 </span>
-                <span className="text-[9px] sm:text-[10px] text-neutral-400 dark:text-neutral-500 leading-tight text-center">{STEP_DESCS[s]}</span>
+                <span className="text-xs sm:text-sm text-neutral-400 dark:text-neutral-500 leading-tight text-center">{STEP_DESCS[s]}</span>
               </div>
             </div>
           ))}
@@ -206,10 +206,10 @@ export default function App() {
                   <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
                   <p className="text-sm text-neutral-600 dark:text-neutral-300">1000 labels per session on free tier.</p>
                   <div className="flex gap-3 justify-center">
-                    <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-colors">
+                    <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97]">
                       Single batch — $1.99
                     </button>
-                    <button className="px-6 py-2 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 hover:shadow-sm transition-all duration-200">
+                    <button className="px-6 py-2 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 hover:shadow-sm transition-all duration-200 active:scale-[0.97]">
                       Pro Monthly — $9.99/mo
                     </button>
                   </div>
@@ -219,13 +219,13 @@ export default function App() {
                 </div>
               ) : (
                 <div className="flex gap-3">
-                  <button onClick={handleBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200">
+                  <button onClick={handleBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
                     Back
                   </button>
                   <button
                     onClick={handleGenerate}
                     disabled={generating}
-                    className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-colors flex items-center gap-2 ${
+                    className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97] flex items-center gap-2 ${
                       generating ? 'opacity-70 cursor-wait' : ''
                     }`}
                   >

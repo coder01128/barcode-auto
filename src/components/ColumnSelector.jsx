@@ -87,8 +87,8 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
             <button
               key={h}
               onClick={() => toggleColumn(h)}
-              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                selected[h] ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500'
+              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 active:scale-[0.97] ${
+                selected[h] ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200 border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500'
               }`}
             >
               {h}
@@ -167,7 +167,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       )}
 
       <div className="flex justify-end">
-        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-neutral-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200">
+        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-neutral-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200 active:scale-[0.97]">
           <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
@@ -176,14 +176,14 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200">
+        <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
           Back
         </button>
         <button
           onClick={() => onConfirm({ selectedCols: headers.filter((h) => selected[h]), barcodeCol, barcodeType, columnStyles, qtyCol: useQty ? qtyCol : null, useQty })}
           disabled={selectedCount < 2}
           className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-            selectedCount < 2 ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md'
+            selectedCount < 2 ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md active:scale-[0.97]'
           }`}
         >
           Next: Set label size ({selectedCount} columns)
