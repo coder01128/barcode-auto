@@ -6,7 +6,7 @@ export default function UsageLimiter({ labelCount, onUpgrade }) {
   return (
     <div className="bg-white rounded-lg border-2 border-accent p-6 text-center space-y-3">
       <h3 className="text-lg font-bold">Free limit reached</h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-neutral-600">
         You&apos;ve used all {1000} labels in this session. Upgrade for unlimited labels.
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -16,7 +16,7 @@ export default function UsageLimiter({ labelCount, onUpgrade }) {
         >
           Single batch — $1.99
         </button>
-        <button className="px-6 py-2 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+        <button className="px-6 py-2 border border-neutral-300 rounded-lg font-medium hover:bg-neutral-50 transition-colors">
           Pro Monthly — $9.99/mo
         </button>
       </div>

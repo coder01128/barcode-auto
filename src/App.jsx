@@ -121,7 +121,7 @@ export default function App() {
         <div className="max-w-[800px] mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-lg font-extrabold tracking-tight">BarcodeAuto</h1>
           <div className="flex items-center gap-3 text-xs">
-            <span className="text-gray-300">{remainingLabels()} labels left</span>
+            <span className="text-neutral-300">{remainingLabels()} labels left</span>
             <a href="#pricing" className="text-accent font-semibold hover:underline">Upgrade</a>
             <button
               onClick={() => setDark(d => !d)}
@@ -147,19 +147,19 @@ export default function App() {
         <div className="flex items-start justify-center gap-0 sm:gap-1 text-sm">
           {STEPS.map((s, i) => (
             <div key={s} className="flex items-center gap-0 sm:gap-1">
-              {i > 0 && <span className="text-gray-300 dark:text-gray-600 mt-3">—</span>}
+              {i > 0 && <span className="text-neutral-300 dark:text-neutral-600 mt-3">—</span>}
               <div className="flex flex-col items-center gap-0.5 min-w-0">
                 <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-bold shrink-0 transition-colors ${
-                  i <= step ? 'bg-accent text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                  i <= step ? 'bg-accent text-white' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
                 }`}>
                   {i + 1}
                 </div>
                 <span className={`text-[10px] sm:text-xs font-semibold leading-tight text-center transition-colors ${
-                  i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-gray-400 dark:text-gray-500'
+                  i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-neutral-400 dark:text-neutral-500'
                 }`}>
                   {s.charAt(0).toUpperCase() + s.slice(1)}
                 </span>
-                <span className="text-[9px] sm:text-[10px] text-gray-400 dark:text-gray-500 leading-tight text-center">{STEP_DESCS[s]}</span>
+                <span className="text-[9px] sm:text-[10px] text-neutral-400 dark:text-neutral-500 leading-tight text-center">{STEP_DESCS[s]}</span>
               </div>
             </div>
           ))}
@@ -168,7 +168,7 @@ export default function App() {
 
       {/* Main content */}
       <main className="max-w-[800px] mx-auto px-4 pb-16">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
+        <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 p-6 transition-colors">
           {step === 0 && <FileUpload onParsed={handleParsed} />}
           {step === 1 && parsedData && (
             <ColumnSelector
@@ -194,7 +194,7 @@ export default function App() {
           {step === 4 && (
             <div className="space-y-6">
               <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
+              <p className="text-sm text-neutral-600 dark:text-neutral-300">
                 Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
                 {' '}{remainingLabels()} remaining in free tier.
                 {' '}PDF includes 1 blank calibration page for thermal printer alignment.
@@ -204,22 +204,22 @@ export default function App() {
               {showPaywall ? (
                 <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-accent rounded-lg p-6 text-center space-y-3 shadow-sm">
                   <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">1000 labels per session on free tier.</p>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">1000 labels per session on free tier.</p>
                   <div className="flex gap-3 justify-center">
                     <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-colors">
                       Single batch — $1.99
                     </button>
-                    <button className="px-6 py-2 border border-gray-200 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 hover:shadow-sm transition-all duration-200">
+                    <button className="px-6 py-2 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 hover:shadow-sm transition-all duration-200">
                       Pro Monthly — $9.99/mo
                     </button>
                   </div>
-                  <button onClick={handleReset} className="text-sm text-gray-500 dark:text-gray-400 hover:underline">
+                  <button onClick={handleReset} className="text-sm text-neutral-500 dark:text-neutral-400 hover:underline">
                     Start over
                   </button>
                 </div>
               ) : (
                 <div className="flex gap-3">
-                  <button onClick={handleBack} className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 transition-all duration-200">
+                  <button onClick={handleBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200">
                     Back
                   </button>
                   <button

@@ -22,7 +22,7 @@ export default function LabelPreview({ layout, dimensions, rows, barcodeCol, bar
   const svgH = dimensions.height * scale
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 min-w-[400px]">
+    <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 p-4 min-w-[400px]">
       <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">Label preview</h3>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`} width={svgW} height={svgH} className="border mx-auto bg-white">
         <rect width={dimensions.width} height={dimensions.height} fill="white" />

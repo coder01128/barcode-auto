@@ -68,7 +68,7 @@ export default function FileUpload({ onParsed }) {
         <h1 className="text-[2.5rem] font-bold text-primary dark:text-[#E8E8E8] leading-tight">
           Spreadsheet to Labels. Instantly.
         </h1>
-        <p className="text-base text-gray-600 dark:text-gray-300 max-w-lg mx-auto">
+        <p className="text-base text-neutral-600 dark:text-neutral-300 max-w-lg mx-auto">
           Upload your stock spreadsheet, pick your columns, download print-ready labels in under 60 seconds.
         </p>
       </div>
@@ -80,7 +80,7 @@ export default function FileUpload({ onParsed }) {
         onDragLeave={handleDragLeave}
         onClick={handleClick}
         className={`border-[3px] border-dashed rounded-lg p-10 text-center cursor-pointer transition-all duration-200 ${
-          dragOver ? 'border-accent bg-orange-50 dark:bg-orange-900/20' : 'border-gray-400 dark:border-gray-500 hover:border-gray-500 dark:hover:border-gray-400'
+          dragOver ? 'border-accent bg-orange-50 dark:bg-orange-900/20' : 'border-neutral-400 dark:border-neutral-500 hover:border-neutral-500 dark:hover:border-neutral-400'
         }`}
       >
         <input
@@ -90,11 +90,11 @@ export default function FileUpload({ onParsed }) {
           onChange={handleInputChange}
           className="hidden"
         />
-        <svg className="mx-auto h-16 w-16 text-gray-400 dark:text-gray-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <svg className="mx-auto h-16 w-16 text-neutral-400 dark:text-neutral-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
         </svg>
-        <p className="text-xl font-bold text-gray-800 dark:text-[#E8E8E8]">Drop your spreadsheet here</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">or click to browse. Supports .xlsx, .xls, .csv</p>
+        <p className="text-xl font-bold text-neutral-800 dark:text-[#E8E8E8]">Drop your spreadsheet here</p>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">or click to browse. Supports .xlsx, .xls, .csv</p>
       </div>
 
       {/* Trust badge */}
@@ -107,22 +107,22 @@ export default function FileUpload({ onParsed }) {
 
       {/* Preview section */}
       {preview && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+        <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 p-4">
           <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">Preview ({preview.length} rows)</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead>
-                <tr className="bg-gray-100 dark:bg-gray-700">
+                <tr className="bg-neutral-100 dark:bg-neutral-700">
                   {Object.keys(preview[0]).map((h) => (
-                    <th key={h} className="px-3 py-2 text-left font-medium text-gray-700 dark:text-gray-200 border-b dark:border-gray-600">{h}</th>
+                    <th key={h} className="px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-200 border-b dark:border-neutral-600">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {preview.map((row, i) => (
-                  <tr key={i} className="even:bg-gray-50 dark:even:bg-gray-700/50">
+                  <tr key={i} className="even:bg-neutral-50 dark:even:bg-neutral-700/50">
                     {Object.values(row).map((val, j) => (
-                      <td key={j} className="px-3 py-2 border-b dark:border-gray-700 text-gray-600 dark:text-gray-300 truncate max-w-[150px]">{String(val)}</td>
+                      <td key={j} className="px-3 py-2 border-b dark:border-neutral-700 text-neutral-600 dark:text-neutral-300 truncate max-w-[150px]">{String(val)}</td>
                     ))}
                   </tr>
                 ))}
