@@ -1,9 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { generateLayouts } from '../utils/layoutEngine'
+
+const LAYOUT_SAVE_KEY = 'barcodeAuto_layout'
 
 export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensions, onConfirm, onBack }) {
   const [selected, setSelected] = useState(null)
   const layouts = generateLayouts(fields, barcodeCol, columnStyles, dimensions)
+
+  useEffect(() => {
+    const saved = localStorage.getItem(LAYOUT_SAVE_KEY)
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved)
+        const match = layouts.find((l) => l.id === parsed.selectedLayoutId)
+        if (match) setSelected(match)
+      } catch {}
+    }
+  }, [])
+
+  function saveDefaults() {
+    if (selected) {
+      localStorage.setItem(LAYOUT_SAVE_KEY, JSON.stringify({
+        selectedLayoutId: selected.id,
+      }))
+    }
+  }
 
   // Use actual label aspect ratio when dimensions available, else default 90x65
   const vw = dimensions?.width || 90
@@ -73,6 +94,15 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
             </svg>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-end">
+        <button onClick={saveDefaults} className="text-xs text-gray-500 dark:text-slate-400 flex items-center gap-1.5 hover:text-accent transition-colors">
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M17.25 6.75L17.25 3H6.75L6.75 6.75M17.25 6.75H6.75M17.25 6.75C18.0784 6.75 18.75 7.42157 18.75 8.25L18.75 20.25C18.75 21.0784 18.0784 21.75 17.25 21.75L6.75 21.75C5.92157 21.75 5.25 21.0784 5.25 20.25L5.25 8.25C5.25 7.42157 5.92157 6.75 6.75 6.75" />
+          </svg>
+          Save as default
+        </button>
       </div>
 
       <div className="flex gap-3">

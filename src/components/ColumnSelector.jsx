@@ -9,6 +9,9 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
   const [barcodeType, setBarcodeType] = useState('ean13')
   const [columnStyles, setColumnStyles] = useState({})
   const [useQty, setUseQty] = useState(true)
+  const [loadedDefaults, setLoadedDefaults] = useState(false)
+
+  const COL_SAVE_KEY = 'barcodeAuto_columns'
 
   const qtyCol = headers.find((h) => QTY_NAMES.includes(h.toLowerCase()))
 
@@ -18,10 +21,42 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
     if (headers.length > 0) {
       const init = {}
       headers.forEach((h) => { init[h] = false })
+
+      const saved = localStorage.getItem(COL_SAVE_KEY)
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved)
+          if (parsed.selectedColumns) {
+            parsed.selectedColumns.forEach((h) => {
+              if (headers.includes(h)) init[h] = true
+            })
+          }
+          if (parsed.barcodeCol && headers.includes(parsed.barcodeCol)) {
+            setBarcodeCol(parsed.barcodeCol)
+          } else {
+            setBarcodeCol(headers.find((h) => !isImageCol(h)) || headers[0])
+          }
+          if (parsed.barcodeType) setBarcodeType(parsed.barcodeType)
+          if (typeof parsed.useQty === 'boolean') setUseQty(parsed.useQty)
+          setLoadedDefaults(true)
+        } catch { setBarcodeCol(headers.find((h) => !isImageCol(h)) || headers[0]) }
+      } else {
+        setBarcodeCol(headers.find((h) => !isImageCol(h)) || headers[0])
+      }
+
       setSelected(init)
-      setBarcodeCol(headers.find((h) => !isImageCol(h)) || headers[0])
     }
   }, [headers, rows])
+
+  function saveDefaults() {
+    const cols = headers.filter((h) => selected[h])
+    localStorage.setItem(COL_SAVE_KEY, JSON.stringify({
+      selectedColumns: cols,
+      barcodeCol,
+      barcodeType,
+      useQty,
+    }))
+  }
 
   function toggleColumn(h) {
     setSelected((prev) => ({ ...prev, [h]: !prev[h] }))
@@ -44,6 +79,9 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
 
       <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-slate-100">Item details</h3>
+        {loadedDefaults && (
+          <p className="text-xs text-accent mb-3 font-medium">Your last settings have been loaded. Click any column to change.</p>
+        )}
         <div className="flex flex-wrap gap-2">
           {visibleHeaders.map((h) => (
             <button
@@ -127,6 +165,15 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
           </div>
         </div>
       )}
+
+      <div className="flex justify-end">
+        <button onClick={saveDefaults} className="text-xs text-gray-500 dark:text-slate-400 flex items-center gap-1.5 hover:text-accent transition-colors">
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M17.25 6.75L17.25 3H6.75L6.75 6.75M17.25 6.75H6.75M17.25 6.75C18.0784 6.75 18.75 7.42157 18.75 8.25L18.75 20.25C18.75 21.0784 18.0784 21.75 17.25 21.75L6.75 21.75C5.92157 21.75 5.25 21.0784 5.25 20.25L5.25 8.25C5.25 7.42157 5.92157 6.75 6.75 6.75" />
+          </svg>
+          Save as default
+        </button>
+      </div>
 
       <div className="flex gap-3">
         <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-colors">
