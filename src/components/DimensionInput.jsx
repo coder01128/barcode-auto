@@ -46,7 +46,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
     <div className="space-y-6">
       <h2 className="text-xl font-bold">Label dimensions</h2>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-slate-400">Common sizes</h3>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p) => {
@@ -68,7 +68,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-4 dark:text-slate-100">Enter dimensions (mm)</h3>
         <div className="grid grid-cols-3 gap-4">
           <div>
@@ -119,50 +119,50 @@ export default function DimensionInput({ onConfirm, onBack }) {
       </div>
 
       {/* Simplified preview — labels shown vertically like the printer output */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-slate-400">Preview</h3>
 
         <div className="flex flex-col items-center gap-0">
           {/* First label */}
           <div
-            className="border-2 border-primary rounded bg-blue-50 flex items-center justify-center"
+            className="border-2 border-primary rounded bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center"
             style={{
-              width: `${Math.min(width * 2.5, 250)}px`,
-              height: `${Math.min(height * 2.5, 200)}px`
+              width: `${Math.max(Math.min(width * 5, 350), 150)}px`,
+              height: `${Math.max(Math.min(height * 5, 250), 80)}px`
             }}
           >
             <div className="text-center">
-              <div className="text-xs font-semibold text-primary">{width} × {height}mm</div>
-              <div className="text-[10px] text-gray-500">your label</div>
+              <div className="text-base font-bold text-primary dark:text-slate-100">{width} × {height}mm</div>
+              <div className="text-sm text-gray-500 dark:text-slate-400">your label</div>
             </div>
           </div>
 
           {/* Gap indicator */}
           {gap > 0 && (
             <div
-              className="bg-gray-100 w-full flex items-center justify-center border-x-2 border-dashed border-gray-300"
+              className="bg-gray-100 dark:bg-slate-700 w-full flex items-center justify-center border-x-2 border-dashed border-gray-300 dark:border-slate-600"
               style={{
-                width: `${Math.min(width * 2.5, 250)}px`,
-                height: `${Math.max(gap * 2.5, 12)}px`
+                width: `${Math.max(Math.min(width * 5, 350), 150)}px`,
+                height: `${Math.max(gap * 5, 20)}px`
               }}
             >
-              <span className="text-[9px] text-gray-400">{gap}mm gap</span>
+              <span className="text-sm text-gray-400 dark:text-slate-500">{gap}mm gap</span>
             </div>
           )}
 
           <svg
-            width={Math.min(width * 3, 200)}
-            height={Math.min(height * 3, 200)}
-            className="border-2 border-dashed border-gray-400 rounded"
+            width={Math.max(Math.min(width * 5, 250), 150)}
+            height={Math.max(Math.min(height * 5, 250), 50)}
+            className="border-2 border-dashed border-gray-400 dark:border-slate-600 rounded"
           >
-            <rect width="100%" height="100%" fill="#f0f0f0" />
-            <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="10" fill="#666">
+            <rect width="100%" height="100%" className="fill-gray-100 dark:fill-slate-600" />
+            <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="13" className="fill-gray-500 dark:fill-slate-300">
               next label
             </text>
           </svg>
         </div>
 
-        <p className="text-xs text-gray-500 dark:text-slate-400 mt-3 text-center">
+        <p className="text-sm text-gray-500 dark:text-slate-400 mt-3 text-center font-medium">
           Total pitch: {height + gap}mm (label + gap)
         </p>
       </div>
@@ -173,7 +173,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
         </button>
         <button
           onClick={() => onConfirm({ width, height, gap })}
-          className="px-6 py-2 bg-accent text-white rounded-lg font-medium hover:bg-[#d96c1e] transition-colors dark:text-white"
+          className="px-6 py-2 bg-accent text-white rounded-lg font-medium hover:bg-[#d96c1e] hover:shadow-md transition-colors dark:text-white"
         >
           Next: Choose layout
         </button>

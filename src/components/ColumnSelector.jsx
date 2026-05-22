@@ -77,7 +77,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
     <div className="space-y-6">
       <h2 className="text-xl font-bold dark:text-slate-100">Which item details should appear on your label?</h2>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-slate-100">Item details</h3>
         {loadedDefaults && (
           <p className="text-xs text-accent mb-3 font-medium">Your last settings have been loaded. Click any column to change.</p>
@@ -97,7 +97,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-slate-100">Which column has the barcode number?</h3>
         <select
           value={barcodeCol}
@@ -110,7 +110,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </select>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-slate-100">Barcode format</h3>
         <select
           value={barcodeType}
@@ -143,7 +143,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       )}
 
       {selectedCount > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
           <h3 className="font-semibold mb-3 dark:text-slate-100">Text style (optional)</h3>
           <p className="text-xs text-gray-500 dark:text-slate-400 mb-2">Make a column bold or large (e.g. price)</p>
           <div className="space-y-2">
@@ -183,7 +183,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
           onClick={() => onConfirm({ selectedCols: headers.filter((h) => selected[h]), barcodeCol, barcodeType, columnStyles, qtyCol: useQty ? qtyCol : null, useQty })}
           disabled={selectedCount < 2}
           className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-            selectedCount < 2 ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e]'
+            selectedCount < 2 ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md'
           }`}
         >
           Next: Set label size ({selectedCount} columns)

@@ -7,5 +7,17 @@
   --color-accent: #E87A2D;
   --color-bg: #F8F9FA;
   --font-heading: 'Inter', system-ui, sans-serif;
-  --font-body: system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #334155;
+}
+
+.dark body, .dark {
+  color: #e2e8f0;
 }

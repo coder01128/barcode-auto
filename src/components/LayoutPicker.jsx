@@ -41,7 +41,7 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
             key={layout.id}
             onClick={() => setSelected(layout)}
             className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-              selected?.id === layout.id ? 'border-accent bg-orange-50 dark:bg-orange-900/20 shadow-md' : 'border-gray-200 dark:border-slate-600 hover:border-gray-400 dark:hover:border-slate-500'
+              selected?.id === layout.id ? 'border-accent bg-orange-50 dark:bg-orange-900/20 shadow-md' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
             }`}
           >
             <h3 className="font-semibold mb-1 dark:text-slate-100">{layout.name}</h3>
@@ -113,7 +113,7 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
           onClick={() => selected && onConfirm(selected)}
           disabled={!selected}
           className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-            !selected ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e]'
+            !selected ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md'
           }`}
         >
           Next: Generate PDF

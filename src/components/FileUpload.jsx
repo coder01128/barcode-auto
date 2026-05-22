@@ -107,7 +107,7 @@ export default function FileUpload({ onParsed }) {
 
       {/* Preview section */}
       {preview && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
           <h3 className="font-semibold mb-2 dark:text-slate-100">Preview ({preview.length} rows)</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
@@ -131,7 +131,7 @@ export default function FileUpload({ onParsed }) {
           </div>
           <button
             onClick={handleConfirm}
-            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#243b5e] transition-colors"
+            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#243b5e] hover:shadow-md transition-colors"
           >
             This looks good — let's build the label
           </button>
