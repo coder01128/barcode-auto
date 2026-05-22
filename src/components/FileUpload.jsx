@@ -65,7 +65,7 @@ export default function FileUpload({ onParsed }) {
     <div className="space-y-6">
       {/* Hero headline */}
       <div className="text-center space-y-3">
-        <h1 className="text-[2.5rem] font-bold text-primary dark:text-slate-100 leading-tight">
+        <h1 className="text-[2.5rem] font-bold text-primary dark:text-[#E8E8E8] leading-tight">
           Spreadsheet to Labels. Instantly.
         </h1>
         <p className="text-base text-gray-600 dark:text-slate-300 max-w-lg mx-auto">
@@ -79,7 +79,7 @@ export default function FileUpload({ onParsed }) {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={handleClick}
-        className={`border-[3px] border-dashed rounded-lg p-10 text-center cursor-pointer transition-colors ${
+        className={`border-[3px] border-dashed rounded-lg p-10 text-center cursor-pointer transition-all duration-200 ${
           dragOver ? 'border-accent bg-orange-50 dark:bg-orange-900/20' : 'border-gray-400 dark:border-slate-500 hover:border-gray-500 dark:hover:border-slate-400'
         }`}
       >
@@ -93,7 +93,7 @@ export default function FileUpload({ onParsed }) {
         <svg className="mx-auto h-16 w-16 text-gray-400 dark:text-slate-500 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
         </svg>
-        <p className="text-xl font-bold text-gray-800 dark:text-slate-100">Drop your spreadsheet here</p>
+        <p className="text-xl font-bold text-gray-800 dark:text-[#E8E8E8]">Drop your spreadsheet here</p>
         <p className="text-sm text-gray-500 dark:text-slate-400 mt-1">or click to browse. Supports .xlsx, .xls, .csv</p>
       </div>
 
@@ -107,8 +107,8 @@ export default function FileUpload({ onParsed }) {
 
       {/* Preview section */}
       {preview && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-          <h3 className="font-semibold mb-2 dark:text-slate-100">Preview ({preview.length} rows)</h3>
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+          <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">Preview ({preview.length} rows)</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead>
@@ -131,7 +131,7 @@ export default function FileUpload({ onParsed }) {
           </div>
           <button
             onClick={handleConfirm}
-            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#243b5e] hover:shadow-md transition-colors"
+            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#1A1A1A] hover:shadow-md transition-colors"
           >
             This looks good — let's build the label
           </button>

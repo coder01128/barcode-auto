@@ -32,7 +32,7 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold dark:text-slate-100">Choose a layout</h2>
+      <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Choose a layout</h2>
       <p className="text-sm text-gray-600 dark:text-slate-300">Select how your labels should look</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -41,10 +41,10 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
             key={layout.id}
             onClick={() => setSelected(layout)}
             className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-              selected?.id === layout.id ? 'border-accent bg-orange-50 dark:bg-orange-900/20 shadow-md' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500'
+              selected?.id === layout.id ? 'border-accent bg-orange-50 dark:bg-orange-900/20 shadow-md' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400 dark:hover:border-slate-500 shadow-sm'
             }`}
           >
-            <h3 className="font-semibold mb-1 dark:text-slate-100">{layout.name}</h3>
+            <h3 className="font-semibold mb-1 dark:text-[#E8E8E8]">{layout.name}</h3>
             <p className="text-xs text-gray-500 dark:text-slate-400 mb-3">{layout.description}</p>
 
             {/* Mini SVG preview with correct aspect ratio */}
@@ -63,7 +63,7 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
                       y={el.y + el.fontSize * 0.35}
                       fontSize={el.fontSize * 0.35}
                       fontWeight={el.fontWeight}
-                      fill={el.fontWeight === 'bold' ? '#1B2A4A' : '#666'}
+                      fill={el.fontWeight === 'bold' ? '#2D2D2D' : '#666'}
                     >
                       {el.column}
                     </text>
@@ -97,16 +97,16 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
       </div>
 
       <div className="flex justify-end">
-        <button onClick={saveDefaults} className="text-xs text-gray-500 dark:text-slate-400 flex items-center gap-1.5 hover:text-accent transition-colors">
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M17.25 6.75L17.25 3H6.75L6.75 6.75M17.25 6.75H6.75M17.25 6.75C18.0784 6.75 18.75 7.42157 18.75 8.25L18.75 20.25C18.75 21.0784 18.0784 21.75 17.25 21.75L6.75 21.75C5.92157 21.75 5.25 21.0784 5.25 20.25L5.25 8.25C5.25 7.42157 5.92157 6.75 6.75 6.75" />
+        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-gray-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200">
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
           Save for next time
         </button>
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-colors">
+        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
           Back
         </button>
         <button

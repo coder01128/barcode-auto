@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'BarcodeAuto - Spreadsheet to Labels',
         short_name: 'BarcodeAuto',
         description: 'Convert spreadsheet stock lists into print-ready barcode label PDFs',
-        theme_color: '#1B2A4A',
-        background_color: '#F8F9FA',
+        theme_color: '#2D2D2D',
+        background_color: '#FAFAFA',
         display: 'standalone',
         start_url: '/',
         icons: [

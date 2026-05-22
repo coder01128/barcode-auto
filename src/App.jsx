@@ -115,13 +115,13 @@ export default function App() {
     : rowCount
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#0f172a] transition-colors">
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#111111] transition-colors">
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
         <div className="max-w-[800px] mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-lg font-extrabold tracking-tight">BarcodeAuto</h1>
           <div className="flex items-center gap-3 text-xs">
-            <span className="text-blue-200">{remainingLabels()} labels left</span>
+            <span className="text-gray-300">{remainingLabels()} labels left</span>
             <a href="#pricing" className="text-accent font-semibold hover:underline">Upgrade</a>
             <button
               onClick={() => setDark(d => !d)}
@@ -155,7 +155,7 @@ export default function App() {
                   {i + 1}
                 </div>
                 <span className={`text-[10px] sm:text-xs font-semibold leading-tight text-center transition-colors ${
-                  i <= step ? 'text-primary dark:text-slate-100' : 'text-gray-400 dark:text-gray-500'
+                  i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-gray-400 dark:text-gray-500'
                 }`}>
                   {s.charAt(0).toUpperCase() + s.slice(1)}
                 </span>
@@ -193,7 +193,7 @@ export default function App() {
           )}
           {step === 4 && (
             <div className="space-y-6">
-              <h2 className="text-xl font-bold dark:text-slate-100">Generate your labels</h2>
+              <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
               <p className="text-sm text-gray-600 dark:text-slate-300">
                 Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
                 {' '}{remainingLabels()} remaining in free tier.
@@ -203,13 +203,13 @@ export default function App() {
 
               {showPaywall ? (
                 <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-accent rounded-lg p-6 text-center space-y-3 shadow-sm">
-                  <h3 className="font-bold text-lg dark:text-slate-100">Free limit reached</h3>
+                  <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
                   <p className="text-sm text-gray-600 dark:text-slate-300">1000 labels per session on free tier.</p>
                   <div className="flex gap-3 justify-center">
                     <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-colors">
                       Single batch — $1.99
                     </button>
-                    <button className="px-6 py-2 border border-slate-200 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 hover:shadow-sm transition-colors">
+                    <button className="px-6 py-2 border border-slate-200 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 hover:shadow-sm transition-all duration-200">
                       Pro Monthly — $9.99/mo
                     </button>
                   </div>
@@ -219,7 +219,7 @@ export default function App() {
                 </div>
               ) : (
                 <div className="flex gap-3">
-                  <button onClick={handleBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-colors">
+                  <button onClick={handleBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
                     Back
                   </button>
                   <button

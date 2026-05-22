@@ -75,10 +75,10 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
 
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold dark:text-slate-100">Which item details should appear on your label?</h2>
+      <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Which item details should appear on your label?</h2>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-        <h3 className="font-semibold mb-3 dark:text-slate-100">Item details</h3>
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+        <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Item details</h3>
         {loadedDefaults && (
           <p className="text-xs text-accent mb-3 font-medium">Your last settings have been loaded. Click any column to change.</p>
         )}
@@ -87,7 +87,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
             <button
               key={h}
               onClick={() => toggleColumn(h)}
-              className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
                 selected[h] ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 border-gray-300 dark:border-slate-600 hover:border-gray-400 dark:hover:border-slate-500'
               }`}
             >
@@ -97,8 +97,8 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-        <h3 className="font-semibold mb-3 dark:text-slate-100">Which column has the barcode number?</h3>
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+        <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Which column has the barcode number?</h3>
         <select
           value={barcodeCol}
           onChange={(e) => setBarcodeCol(e.target.value)}
@@ -110,8 +110,8 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </select>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-        <h3 className="font-semibold mb-3 dark:text-slate-100">Barcode format</h3>
+      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+        <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Barcode format</h3>
         <select
           value={barcodeType}
           onChange={(e) => setBarcodeType(e.target.value)}
@@ -125,7 +125,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
 
       {qtyCol && (
         <div className="bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-l-4 border-l-accent p-4">
-          <h3 className="font-bold text-base mb-2 dark:text-slate-100">Print multiple copies?</h3>
+          <h3 className="font-bold text-base mb-2 dark:text-[#E8E8E8]">Print multiple copies?</h3>
           <p className="text-sm text-gray-600 dark:text-slate-300 mb-3">
             Your spreadsheet has a "{qtyCol}" column. If an item says {qtyCol} 3,
             we'll print 3 labels for it instead of 1.
@@ -143,8 +143,8 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       )}
 
       {selectedCount > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 p-4">
-          <h3 className="font-semibold mb-3 dark:text-slate-100">Text style (optional)</h3>
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+          <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Text style (optional)</h3>
           <p className="text-xs text-gray-500 dark:text-slate-400 mb-2">Make a column bold or large (e.g. price)</p>
           <div className="space-y-2">
             {visibleHeaders.filter((h) => selected[h] && h !== barcodeCol).map((h) => (
@@ -167,16 +167,16 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       )}
 
       <div className="flex justify-end">
-        <button onClick={saveDefaults} className="text-xs text-gray-500 dark:text-slate-400 flex items-center gap-1.5 hover:text-accent transition-colors">
-          <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M17.25 6.75L17.25 3H6.75L6.75 6.75M17.25 6.75H6.75M17.25 6.75C18.0784 6.75 18.75 7.42157 18.75 8.25L18.75 20.25C18.75 21.0784 18.0784 21.75 17.25 21.75L6.75 21.75C5.92157 21.75 5.25 21.0784 5.25 20.25L5.25 8.25C5.25 7.42157 5.92157 6.75 6.75 6.75" />
+        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-gray-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200">
+          <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
           Save for next time
         </button>
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-colors">
+        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
           Back
         </button>
         <button

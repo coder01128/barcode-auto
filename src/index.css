@@ -3,9 +3,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #1B2A4A;
+  --color-primary: #2D2D2D;
+  --color-primary-dark: #1A1A1A;
+  --color-primary-light: #404040;
   --color-accent: #E87A2D;
-  --color-bg: #F8F9FA;
+  --color-bg: #FAFAFA;
   --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -15,9 +17,17 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #334155;
+  color: #2D2D2D;
 }
 
 .dark body, .dark {
-  color: #e2e8f0;
+  color: #E8E8E8;
+}
+
+.border, .border-r, .border-l, .border-t, .border-b {
+  border-color: #E0E0E0;
+}
+
+.dark .border, .dark .border-r, .dark .border-l, .dark .border-t, .dark .border-b {
+  border-color: #333333;
 }
