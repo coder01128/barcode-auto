@@ -22,8 +22,8 @@ export default function LabelPreview({ layout, dimensions, rows, barcodeCol, bar
   const svgH = dimensions.height * scale
 
   return (
-    <div className="bg-white rounded-lg border p-4 min-w-[400px]">
-      <h3 className="font-semibold mb-2">Label preview</h3>
+    <div className="bg-white dark:bg-slate-800 rounded-lg border dark:border-slate-700 p-4 min-w-[400px]">
+      <h3 className="font-semibold mb-2 dark:text-slate-100">Label preview</h3>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`} width={svgW} height={svgH} className="border mx-auto bg-white">
         <rect width={dimensions.width} height={dimensions.height} fill="white" />
         {elements.map((el, i) => {
@@ -61,9 +61,9 @@ export default function LabelPreview({ layout, dimensions, rows, barcodeCol, bar
 }
 
 function getJsBarcodeDataUrl(value, format, el) {
-  const scaleFactor = 8
-  const w = Math.round(el.width * scaleFactor * 3)
-  const h = Math.round(el.height * scaleFactor * 3)
+  const dpi = 10
+  const w = Math.round(el.width * dpi)
+  const h = Math.round(el.height * dpi)
   const canvas = document.createElement('canvas')
   canvas.width = w
   canvas.height = h
@@ -71,11 +71,11 @@ function getJsBarcodeDataUrl(value, format, el) {
     JsBarcode(canvas, value, {
       format,
       width: 3,
-      height: Math.round(Math.max(20, el.height * 0.7) * scaleFactor),
+      height: Math.round(Math.max(20, el.height * 0.7) * dpi),
       displayValue: true,
-      fontSize: 5 * scaleFactor,
-      textMargin: 1 * scaleFactor,
-      margin: 1 * scaleFactor,
+      fontSize: 5 * dpi,
+      textMargin: 1 * dpi,
+      margin: 1 * dpi,
       background: '#ffffff',
       lineColor: '#000000',
     })
