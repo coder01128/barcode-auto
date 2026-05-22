@@ -46,8 +46,8 @@ export default function DimensionInput({ onConfirm, onBack }) {
     <div className="space-y-6">
       <h2 className="text-xl font-bold">Label dimensions</h2>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
-        <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-slate-400">Common sizes</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+        <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-gray-400">Common sizes</h3>
         <div className="flex flex-wrap gap-2">
           {PRESETS.map((p) => {
             const sel = p.w === width && p.h === height && p.g === gap
@@ -58,7 +58,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
                 className={`px-3 py-1.5 text-sm border rounded-lg transition-all duration-200 ${
                   sel
                     ? 'bg-accent text-white border-accent shadow-sm'
-                    : 'hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 dark:border-slate-600'
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 dark:border-gray-600'
                 }`}
               >
                 {p.label}
@@ -68,42 +68,42 @@ export default function DimensionInput({ onConfirm, onBack }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <h3 className="font-semibold mb-4 dark:text-[#E8E8E8]">Enter dimensions (mm)</h3>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-200">Width (mm)</label>
-            <p className="text-[13px] text-[#444] dark:text-slate-400 mb-1 leading-tight">measured across the roll</p>
+            <label className="block text-sm font-medium mb-1 dark:text-gray-200">Width (mm)</label>
+            <p className="text-[13px] text-[#444] dark:text-gray-400 mb-1 leading-tight">measured across the roll</p>
             <input
               type="number"
               min={10}
               max={200}
               value={width}
               onChange={(e) => setWidth(Number(e.target.value))}
-              className="w-full p-2 border rounded-lg text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+              className="w-full p-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-200">Height (mm)</label>
-            <p className="text-[13px] text-[#444] dark:text-slate-400 mb-1 leading-tight">measured along feed direction</p>
+            <label className="block text-sm font-medium mb-1 dark:text-gray-200">Height (mm)</label>
+            <p className="text-[13px] text-[#444] dark:text-gray-400 mb-1 leading-tight">measured along feed direction</p>
             <input
               type="number"
               min={10}
               max={300}
               value={height}
               onChange={(e) => setHeight(Number(e.target.value))}
-              className="w-full p-2 border rounded-lg text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+              className="w-full p-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-200">Gap</label>
+            <label className="block text-sm font-medium mb-1 dark:text-gray-200">Gap</label>
             <input
               type="number"
               min={0}
               max={20}
               value={gap}
               onChange={(e) => setGap(Number(e.target.value))}
-              className="w-full p-2 border rounded-lg text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+              className="w-full p-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
             />
           </div>
         </div>
@@ -119,8 +119,8 @@ export default function DimensionInput({ onConfirm, onBack }) {
       </div>
 
       {/* Simplified preview — labels shown vertically like the printer output */}
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
-        <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-slate-400">Preview</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
+        <h3 className="font-semibold mb-3 text-sm text-gray-600 dark:text-gray-400">Preview</h3>
 
         <div className="flex flex-col items-center gap-0">
           {/* First label */}
@@ -133,42 +133,42 @@ export default function DimensionInput({ onConfirm, onBack }) {
           >
             <div className="text-center">
               <div className="text-base font-bold text-primary dark:text-[#E8E8E8]">{width} × {height}mm</div>
-              <div className="text-sm text-gray-500 dark:text-slate-400">your label</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">your label</div>
             </div>
           </div>
 
           {/* Gap indicator */}
           {gap > 0 && (
             <div
-              className="bg-gray-100 dark:bg-slate-700 w-full flex items-center justify-center border-x-2 border-dashed border-gray-300 dark:border-slate-600"
+              className="bg-gray-100 dark:bg-gray-700 w-full flex items-center justify-center border-x-2 border-dashed border-gray-300 dark:border-gray-600"
               style={{
                 width: `${Math.max(Math.min(width * 5, 350), 150)}px`,
                 height: `${Math.max(gap * 5, 20)}px`
               }}
             >
-              <span className="text-sm text-gray-400 dark:text-slate-500">{gap}mm gap</span>
+              <span className="text-sm text-gray-400 dark:text-gray-500">{gap}mm gap</span>
             </div>
           )}
 
           <svg
             width={Math.max(Math.min(width * 5, 250), 150)}
             height={Math.max(Math.min(height * 5, 250), 50)}
-            className="border-2 border-dashed border-gray-400 dark:border-slate-600 rounded"
+            className="border-2 border-dashed border-gray-400 dark:border-gray-600 rounded"
           >
-            <rect width="100%" height="100%" className="fill-gray-100 dark:fill-slate-600" />
-            <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="13" className="fill-gray-500 dark:fill-slate-300">
+            <rect width="100%" height="100%" className="fill-gray-100 dark:fill-gray-600" />
+            <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="13" className="fill-gray-500 dark:fill-gray-300">
               next label
             </text>
           </svg>
         </div>
 
-        <p className="text-sm text-gray-500 dark:text-slate-400 mt-3 text-center font-medium">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-3 text-center font-medium">
           Total pitch: {height + gap}mm (label + gap)
         </p>
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
+        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 transition-all duration-200">
           Back
         </button>
         <button

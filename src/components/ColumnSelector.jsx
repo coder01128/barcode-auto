@@ -77,7 +77,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
     <div className="space-y-6">
       <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Which item details should appear on your label?</h2>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Item details</h3>
         {loadedDefaults && (
           <p className="text-xs text-accent mb-3 font-medium">Your last settings have been loaded. Click any column to change.</p>
@@ -88,7 +88,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
               key={h}
               onClick={() => toggleColumn(h)}
               className={`px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ${
-                selected[h] ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-200 border-gray-300 dark:border-slate-600 hover:border-gray-400 dark:hover:border-slate-500'
+                selected[h] ? 'bg-primary text-white border-primary' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
               }`}
             >
               {h}
@@ -97,12 +97,12 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Which column has the barcode number?</h3>
         <select
           value={barcodeCol}
           onChange={(e) => setBarcodeCol(e.target.value)}
-          className="w-full p-2 border rounded-lg text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+          className="w-full p-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
         >
           {visibleHeaders.filter((h) => selected[h]).map((h) => (
             <option key={h} value={h}>{h}</option>
@@ -110,12 +110,12 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
         </select>
       </div>
 
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
         <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Barcode format</h3>
         <select
           value={barcodeType}
           onChange={(e) => setBarcodeType(e.target.value)}
-          className="w-full p-2 border rounded-lg text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+          className="w-full p-2 border rounded-lg text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
         >
           {BARCODE_TYPES.map((bt) => (
             <option key={bt.id} value={bt.id}>{bt.name}</option>
@@ -126,7 +126,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       {qtyCol && (
         <div className="bg-orange-50 dark:bg-orange-900/10 rounded-lg border border-l-4 border-l-accent p-4">
           <h3 className="font-bold text-base mb-2 dark:text-[#E8E8E8]">Print multiple copies?</h3>
-          <p className="text-sm text-gray-600 dark:text-slate-300 mb-3">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
             Your spreadsheet has a "{qtyCol}" column. If an item says {qtyCol} 3,
             we'll print 3 labels for it instead of 1.
           </p>
@@ -143,9 +143,9 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       )}
 
       {selectedCount > 0 && (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700 p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
           <h3 className="font-semibold mb-3 dark:text-[#E8E8E8]">Text style (optional)</h3>
-          <p className="text-xs text-gray-500 dark:text-slate-400 mb-2">Make a column bold or large (e.g. price)</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Make a column bold or large (e.g. price)</p>
           <div className="space-y-2">
             {visibleHeaders.filter((h) => selected[h] && h !== barcodeCol).map((h) => (
               <div key={h} className="flex items-center justify-between text-sm">
@@ -176,7 +176,7 @@ export default function ColumnSelector({ headers, rows, onConfirm, onBack }) {
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
+        <button onClick={onBack} className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 transition-all duration-200">
           Back
         </button>
         <button

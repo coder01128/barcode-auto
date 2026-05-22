@@ -168,7 +168,7 @@ export default function App() {
 
       {/* Main content */}
       <main className="max-w-[800px] mx-auto px-4 pb-16">
-        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6 transition-colors">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors">
           {step === 0 && <FileUpload onParsed={handleParsed} />}
           {step === 1 && parsedData && (
             <ColumnSelector
@@ -194,7 +194,7 @@ export default function App() {
           {step === 4 && (
             <div className="space-y-6">
               <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
-              <p className="text-sm text-gray-600 dark:text-slate-300">
+              <p className="text-sm text-gray-600 dark:text-gray-300">
                 Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
                 {' '}{remainingLabels()} remaining in free tier.
                 {' '}PDF includes 1 blank calibration page for thermal printer alignment.
@@ -204,22 +204,22 @@ export default function App() {
               {showPaywall ? (
                 <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-accent rounded-lg p-6 text-center space-y-3 shadow-sm">
                   <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
-                  <p className="text-sm text-gray-600 dark:text-slate-300">1000 labels per session on free tier.</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">1000 labels per session on free tier.</p>
                   <div className="flex gap-3 justify-center">
                     <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-colors">
                       Single batch — $1.99
                     </button>
-                    <button className="px-6 py-2 border border-slate-200 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 hover:shadow-sm transition-all duration-200">
+                    <button className="px-6 py-2 border border-gray-200 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 hover:shadow-sm transition-all duration-200">
                       Pro Monthly — $9.99/mo
                     </button>
                   </div>
-                  <button onClick={handleReset} className="text-sm text-gray-500 dark:text-slate-400 hover:underline">
+                  <button onClick={handleReset} className="text-sm text-gray-500 dark:text-gray-400 hover:underline">
                     Start over
                   </button>
                 </div>
               ) : (
                 <div className="flex gap-3">
-                  <button onClick={handleBack} className="px-6 py-2 border border-gray-300 dark:border-slate-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-slate-700 dark:text-slate-200 transition-all duration-200">
+                  <button onClick={handleBack} className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 dark:text-gray-200 transition-all duration-200">
                     Back
                   </button>
                   <button
