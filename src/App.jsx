@@ -4,6 +4,9 @@ import ColumnSelector from './components/ColumnSelector'
 import DimensionInput from './components/DimensionInput'
 import LayoutPicker from './components/LayoutPicker'
 import LabelPreview from './components/LabelPreview'
+import SplashModal from './components/SplashModal'
+import LandingGate from './components/LandingGate'
+import BarcodeGenerator from './components/BarcodeGenerator'
 import { generateLabelPdf } from './utils/pdfGenerator'
 import { canGenerate, incrementUsage, remainingLabels } from './utils/usageLimiter'
 
@@ -17,6 +20,8 @@ const STEP_DESCS = {
   generate: 'Download PDF',
 }
 
+const SPLASH_KEY = 'barcodeAuto_splashDismissed'
+
 export default function App() {
   const [step, setStep] = useState(0)
   const [parsedData, setParsedData] = useState(null)
@@ -24,16 +29,36 @@ export default function App() {
   const [generating, setGenerating] = useState(false)
   const [showPaywall, setShowPaywall] = useState(false)
 
+  const [showSplash, setShowSplash] = useState(() => localStorage.getItem(SPLASH_KEY) !== 'true')
+  const [appMode, setAppMode] = useState('gate') // 'gate' | 'generator' | 'wizard'
+  const [fromGenerator, setFromGenerator] = useState(false)
+
   const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')
 
   useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    if (dark) document.documentElement.classList.add('dark')
+    else document.documentElement.classList.remove('dark')
     localStorage.setItem('theme', dark ? 'dark' : 'light')
   }, [dark])
+
+  const handleSplashDismiss = useCallback(() => setShowSplash(false), [])
+
+  const handleChooseGenerator = useCallback(() => setAppMode('generator'), [])
+
+  const handleChooseWizard = useCallback(() => {
+    setFromGenerator(false)
+    setStep(0)
+    setParsedData(null)
+    setConfig({})
+    setAppMode('wizard')
+  }, [])
+
+  const handleGeneratorHandoff = useCallback((enrichedData) => {
+    setParsedData(enrichedData)
+    setStep(1)
+    setFromGenerator(true)
+    setAppMode('wizard')
+  }, [])
 
   const handleParsed = useCallback((data) => {
     setParsedData(data)
@@ -56,10 +81,7 @@ export default function App() {
   }, [])
 
   const handleGenerate = useCallback(() => {
-    if (!canGenerate()) {
-      setShowPaywall(true)
-      return
-    }
+    if (!canGenerate()) { setShowPaywall(true); return }
     setGenerating(true)
     try {
       const result = generateLabelPdf({
@@ -71,25 +93,18 @@ export default function App() {
         qtyCol: config.qtyCol,
         useQty: config.useQty,
       })
-
-      const { doc, labelCount, rowCount, fits } = result
-
+      const { doc, labelCount, fits } = result
       if (!fits) {
         const proceed = window.confirm(
           'Warning: Some content may overflow the label edges. Try selecting fewer columns or increasing label size. Generate anyway?'
         )
-        if (!proceed) {
-          setGenerating(false)
-          return
-        }
+        if (!proceed) { setGenerating(false); return }
       }
-
       const usageCount = Math.min(labelCount, 999)
       for (let i = 0; i < usageCount; i++) {
         if (!canGenerate()) break
         incrementUsage()
       }
-
       doc.save(`barcode-labels-${Date.now()}.pdf`)
     } catch (err) {
       alert('Error generating PDF: ' + err.message)
@@ -98,14 +113,24 @@ export default function App() {
   }, [parsedData, config])
 
   const handleBack = useCallback(() => {
-    setStep((s) => Math.max(0, s - 1))
-  }, [])
+    if (step === 0 || (fromGenerator && step === 1)) {
+      setAppMode('gate')
+      setFromGenerator(false)
+      setStep(0)
+      setParsedData(null)
+      setConfig({})
+    } else {
+      setStep((s) => Math.max(0, s - 1))
+    }
+  }, [step, fromGenerator])
 
   const handleReset = useCallback(() => {
     setStep(0)
     setParsedData(null)
     setConfig({})
     setShowPaywall(false)
+    setAppMode('gate')
+    setFromGenerator(false)
   }, [])
 
   const rowCount = parsedData?.rows.length || 0
@@ -116,10 +141,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#111111] transition-colors">
+      {showSplash && <SplashModal onDismiss={handleSplashDismiss} />}
+
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
         <div className="max-w-[800px] mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-lg font-extrabold tracking-tight">BarcodeAuto</h1>
+          <button
+            onClick={handleReset}
+            className="text-lg font-extrabold tracking-tight hover:opacity-80 transition-opacity"
+          >
+            BarcodeAuto
+          </button>
           <div className="flex items-center gap-3 text-xs">
             <span className="text-neutral-300">{remainingLabels()} labels left</span>
             <a href="#pricing" className="text-accent font-semibold hover:underline">Upgrade</a>
@@ -142,102 +174,131 @@ export default function App() {
         </div>
       </header>
 
-      {/* Step indicator */}
-      <div className="max-w-[900px] mx-auto px-2 sm:px-4 py-6">
-        <div className="flex items-start justify-center gap-1 sm:gap-2">
-          {STEPS.map((s, i) => (
-            <div key={s} className="flex items-center gap-1 sm:gap-2">
-              {i > 0 && <span className="text-neutral-300 dark:text-neutral-600 mt-6 text-sm sm:text-base">—</span>}
-              <div className="flex flex-col items-center gap-1 min-w-0">
-                <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-base sm:text-lg font-bold shrink-0 transition-all duration-200 active:scale-[0.97] ${
-                  i <= step ? 'bg-accent text-white shadow-md' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
-                }`}>
-                  {i + 1}
-                </div>
-                <span className={`text-sm sm:text-base font-bold leading-tight text-center transition-colors ${
-                  i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-neutral-400 dark:text-neutral-500'
-                }`}>
-                  {s.charAt(0).toUpperCase() + s.slice(1)}
-                </span>
-                <span className="text-xs sm:text-sm text-neutral-400 dark:text-neutral-500 leading-tight text-center">{STEP_DESCS[s]}</span>
-              </div>
+      {/* Step indicator — wizard mode only */}
+      {appMode === 'wizard' && (
+        <div className="max-w-[900px] mx-auto px-2 sm:px-4 py-6">
+          {fromGenerator && (
+            <div className="flex justify-center mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFD700]/10 border border-[#FFD700]/30 text-xs font-semibold text-[#B8960C] dark:text-[#FFD700]">
+                <svg fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-3 h-3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+                Barcodes generated
+              </span>
             </div>
-          ))}
+          )}
+          <div className="flex items-start justify-center gap-1 sm:gap-2">
+            {STEPS.map((s, i) => (
+              <div key={s} className="flex items-center gap-1 sm:gap-2">
+                {i > 0 && <span className="text-neutral-300 dark:text-neutral-600 mt-6 text-sm sm:text-base">—</span>}
+                <div className="flex flex-col items-center gap-1 min-w-0">
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-base sm:text-lg font-bold shrink-0 transition-all duration-200 active:scale-[0.97] ${
+                    i <= step ? 'bg-accent text-white shadow-md' : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400'
+                  }`}>
+                    {i + 1}
+                  </div>
+                  <span className={`text-sm sm:text-base font-bold leading-tight text-center transition-colors ${
+                    i <= step ? 'text-primary dark:text-[#E8E8E8]' : 'text-neutral-400 dark:text-neutral-500'
+                  }`}>
+                    {s.charAt(0).toUpperCase() + s.slice(1)}
+                  </span>
+                  <span className="text-xs sm:text-sm text-neutral-400 dark:text-neutral-500 leading-tight text-center">{STEP_DESCS[s]}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main content */}
       <main className="max-w-[800px] mx-auto px-4 pb-16">
         <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 p-6 transition-colors">
-          {step === 0 && <FileUpload onParsed={handleParsed} />}
-          {step === 1 && parsedData && (
-            <ColumnSelector
-              headers={parsedData.headers}
-              rows={parsedData.rows}
-              onConfirm={handleColumns}
-              onBack={handleBack}
-            />
+          {appMode === 'gate' && (
+            <LandingGate onNeedBarcodes={handleChooseGenerator} onHaveBarcodes={handleChooseWizard} />
           )}
-          {step === 2 && (
-            <DimensionInput onConfirm={handleDimensions} onBack={handleBack} />
-          )}
-          {step === 3 && (
-            <LayoutPicker
-              fields={config.selectedCols}
-              barcodeCol={config.barcodeCol}
-              columnStyles={config.columnStyles}
-              dimensions={config.dimensions}
-              onConfirm={handleLayout}
-              onBack={handleBack}
-            />
-          )}
-          {step === 4 && (
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
-              <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
-                {' '}{remainingLabels()} remaining in free tier.
-                {' '}PDF includes 1 blank calibration page for thermal printer alignment.
-              </p>
-              <LabelPreview layout={config.layout} dimensions={config.dimensions} rows={parsedData?.rows} barcodeCol={config.barcodeCol} barcodeType={config.barcodeType} />
 
-              {showPaywall ? (
-                <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-accent rounded-lg p-6 text-center space-y-3 shadow-sm">
-                  <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-300">1000 labels per session on free tier.</p>
-                  <div className="flex gap-3 justify-center">
-                    <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97]">
-                      Single batch — $1.99
-                    </button>
-                    <button className="px-6 py-2 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 hover:shadow-sm transition-all duration-200 active:scale-[0.97]">
-                      Pro Monthly — $9.99/mo
-                    </button>
-                  </div>
-                  <button onClick={handleReset} className="text-sm text-neutral-500 dark:text-neutral-400 hover:underline">
-                    Start over
-                  </button>
-                </div>
-              ) : (
-                <div className="flex gap-3">
-                  <button onClick={handleBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
-                    Back
-                  </button>
-                  <button
-                    onClick={handleGenerate}
-                    disabled={generating}
-                    className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97] flex items-center gap-2 ${
-                      generating ? 'opacity-70 cursor-wait' : ''
-                    }`}
-                  >
-                    {generating ? (
-                      <>Generating...</>
-                    ) : (
-                      <>Download PDF ({Math.min(totalLabels || rowCount, 1000, remainingLabels() || 1000)} labels)</>
-                    )}
-                  </button>
+          {appMode === 'generator' && (
+            <BarcodeGenerator onHandoff={handleGeneratorHandoff} onBack={() => setAppMode('gate')} />
+          )}
+
+          {appMode === 'wizard' && (
+            <>
+              {step === 0 && <FileUpload onParsed={handleParsed} />}
+              {step === 1 && parsedData && (
+                <ColumnSelector
+                  headers={parsedData.headers}
+                  rows={parsedData.rows}
+                  onConfirm={handleColumns}
+                  onBack={handleBack}
+                />
+              )}
+              {step === 2 && (
+                <DimensionInput onConfirm={handleDimensions} onBack={handleBack} />
+              )}
+              {step === 3 && (
+                <LayoutPicker
+                  fields={config.selectedCols}
+                  barcodeCol={config.barcodeCol}
+                  columnStyles={config.columnStyles}
+                  dimensions={config.dimensions}
+                  onConfirm={handleLayout}
+                  onBack={handleBack}
+                />
+              )}
+              {step === 4 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                    Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
+                    {' '}{remainingLabels()} remaining in free tier.
+                    {' '}PDF includes 1 blank calibration page for thermal printer alignment.
+                  </p>
+                  <LabelPreview
+                    layout={config.layout}
+                    dimensions={config.dimensions}
+                    rows={parsedData?.rows}
+                    barcodeCol={config.barcodeCol}
+                    barcodeType={config.barcodeType}
+                  />
+
+                  {showPaywall ? (
+                    <div className="bg-orange-50 dark:bg-orange-900/20 border-2 border-accent rounded-lg p-6 text-center space-y-3 shadow-sm">
+                      <h3 className="font-bold text-lg dark:text-[#E8E8E8]">Free limit reached</h3>
+                      <p className="text-sm text-neutral-600 dark:text-neutral-300">1000 labels per session on free tier.</p>
+                      <div className="flex gap-3 justify-center">
+                        <button className="px-6 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97]">
+                          Single batch — $1.99
+                        </button>
+                        <button className="px-6 py-2 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 hover:shadow-sm transition-all duration-200 active:scale-[0.97]">
+                          Pro Monthly — $9.99/mo
+                        </button>
+                      </div>
+                      <button onClick={handleReset} className="text-sm text-neutral-500 dark:text-neutral-400 hover:underline">
+                        Start over
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-3">
+                      <button
+                        onClick={handleBack}
+                        className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]"
+                      >
+                        Back
+                      </button>
+                      <button
+                        onClick={handleGenerate}
+                        disabled={generating}
+                        className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97] flex items-center gap-2 ${
+                          generating ? 'opacity-70 cursor-wait' : ''
+                        }`}
+                      >
+                        {generating ? 'Generating...' : `Download PDF (${Math.min(totalLabels || rowCount, 1000, remainingLabels() || 1000)} labels)`}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </main>

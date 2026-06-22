@@ -131,7 +131,7 @@ export default function FileUpload({ onParsed }) {
           </div>
           <button
             onClick={handleConfirm}
-            className="mx-auto mt-4 block bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-[#1A1A1A] hover:shadow-md transition-all duration-200 active:scale-[0.97]"
+            className="mx-auto mt-4 block bg-accent text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97]"
           >
             This looks good — let's build the label
           </button>

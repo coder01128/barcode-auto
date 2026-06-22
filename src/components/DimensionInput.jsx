@@ -173,7 +173,7 @@ export default function DimensionInput({ onConfirm, onBack }) {
         </button>
         <button
           onClick={() => onConfirm({ width, height, gap })}
-          className="px-6 py-2 bg-accent text-white rounded-lg font-medium hover:bg-[#d96c1e] hover:shadow-md transition-colors dark:text-white"
+          className="px-6 py-2 bg-accent text-white rounded-lg font-medium hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97]"
         >
           Next: Choose layout
         </button>

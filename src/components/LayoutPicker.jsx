@@ -112,8 +112,8 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
         <button
           onClick={() => selected && onConfirm(selected)}
           disabled={!selected}
-          className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-            !selected ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md'
+          className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+            !selected ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md active:scale-[0.97]'
           }`}
         >
           Next: Generate PDF
