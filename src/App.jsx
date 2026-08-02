@@ -302,6 +302,17 @@ export default function App() {
           )}
         </div>
       </main>
+
+      <footer className="max-w-[800px] mx-auto px-4 pb-8 text-center">
+        <a
+          href="https://oneshotweb.co.za/apps/barcode-auto"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-neutral-400 dark:text-neutral-500 hover:text-accent dark:hover:text-accent transition-colors"
+        >
+          Built by OneShot Web
+        </a>
+      </footer>
     </div>
   )
 }
