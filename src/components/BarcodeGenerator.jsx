@@ -251,6 +251,20 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
             <p className="text-sm font-semibold dark:text-[#E8E8E8]">{enrichedRows.length} barcodes generated — all unique</p>
           </div>
 
+          {/* Be explicit about what these codes are for, before anyone prints a thousand of them. */}
+          {(format === 'ean13' || format === 'upca') && (
+            <div className="bg-[#FFD700]/10 border border-[#FFD700]/50 rounded-lg p-4 text-sm text-neutral-700 dark:text-neutral-200">
+              <p className="font-semibold mb-1 dark:text-[#E8E8E8]">These are in-store barcodes — here's what that means.</p>
+              <p className="leading-relaxed">
+                They'll scan perfectly on your own tills, shelves and stock system. That's exactly
+                what the {format === 'ean13' ? '"20"' : '"2"'} prefix is set aside for, and it's why you don't need a GS1
+                membership to use them. What they won't do is identify your product in someone
+                else's shop — those codes have to be bought from GS1. If you're labelling your
+                own stock, you're sorted.
+              </p>
+            </div>
+          )}
+
           <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 p-4">
             <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">Preview (first 5 rows)</h3>
             <div className="overflow-x-auto">
