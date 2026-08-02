@@ -21,7 +21,7 @@ export default function SplashModal({ onDismiss }) {
           </div>
           <h2 className="text-2xl font-extrabold text-white mb-3">Welcome to BarcodeAuto</h2>
           <p className="text-neutral-300 text-sm leading-relaxed">
-            Turn any spreadsheet into print-ready barcode labels in under 60 seconds.
+            Turn any stock spreadsheet into print-ready barcode labels in under 60 seconds.
             <br />No signup. No server uploads. Everything runs in your browser.
           </p>
         </div>
