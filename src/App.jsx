@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import FileUpload from './components/FileUpload'
 import ColumnSelector from './components/ColumnSelector'
 import DimensionInput from './components/DimensionInput'
@@ -302,6 +303,7 @@ export default function App() {
           )}
         </div>
       </main>
+      <Analytics />
     </div>
   )
 }
