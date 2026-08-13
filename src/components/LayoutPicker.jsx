@@ -96,28 +96,27 @@ export default function LayoutPicker({ fields, barcodeCol, columnStyles, dimensi
         ))}
       </div>
 
-      <div className="flex justify-end">
-        <button onClick={saveDefaults} className="px-3.5 py-1.5 text-xs font-medium rounded-full border border-[#E0E0E0] bg-white dark:bg-[#1C1C1C] dark:border-[#333333] text-neutral-500 dark:text-[#999999] flex items-center gap-1.5 hover:bg-[#F5F5F5] hover:border-accent dark:hover:bg-[#2A2A2A] transition-all duration-200 active:scale-[0.97]">
+      <div className="flex items-center gap-3">
+        <button onClick={saveDefaults} className="px-4 py-1.5 text-sm font-medium rounded-full border border-accent bg-white dark:bg-[#1C1C1C] text-[var(--color-accent-text)] flex items-center gap-1.5 hover:bg-accent/10 dark:hover:bg-accent/20 transition-all duration-200 active:scale-[0.97]">
           <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
           Save for next time
         </button>
-      </div>
-
-      <div className="flex gap-3">
-        <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
-          Back
-        </button>
-        <button
-          onClick={() => selected && onConfirm(selected)}
-          disabled={!selected}
-          className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
-            !selected ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md active:scale-[0.97]'
-          }`}
-        >
-          Next: Generate PDF
-        </button>
+        <div className="flex gap-3 ml-auto">
+          <button onClick={onBack} className="px-6 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-700 dark:text-neutral-200 transition-all duration-200 active:scale-[0.97]">
+            Back
+          </button>
+          <button
+            onClick={() => selected && onConfirm(selected)}
+            disabled={!selected}
+            className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
+              !selected ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed' : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md active:scale-[0.97]'
+            }`}
+          >
+            Next: Generate PDF
+          </button>
+        </div>
       </div>
     </div>
   )

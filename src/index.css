@@ -13,6 +13,13 @@
   --font-sans: 'Inter', system-ui, sans-serif;
 }
 
+:root {
+  --color-accent-text: #B05E1A;
+}
+.dark {
+  --color-accent-text: #E87A2D;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
