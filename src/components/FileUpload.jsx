@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'
 import * as XLSX from 'xlsx'
+import { decodeFileBuffer } from '../utils/decodeFileBuffer'
 
 export default function FileUpload({ onParsed }) {
   const [dragOver, setDragOver] = useState(false)
@@ -12,8 +13,11 @@ export default function FileUpload({ onParsed }) {
     const reader = new FileReader()
     reader.onload = (e) => {
       try {
-        const data = new Uint8Array(e.target.result)
-        const workbook = XLSX.read(data, { type: 'array', raw: false })
+        // Text formats are decoded here so SheetJS never guesses cp1252
+        const decoded = decodeFileBuffer(e.target.result)
+        const workbook = decoded.mode === 'binary'
+          ? XLSX.read(decoded.data, { type: 'array', raw: false })
+          : XLSX.read(decoded.data, { type: 'string', raw: false })
         const sheet = workbook.Sheets[workbook.SheetNames[0]]
         // raw:false forces formatted text so leading zeros, scientific-notation
         // strings and long numerics survive as literal strings
