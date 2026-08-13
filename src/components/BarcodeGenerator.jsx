@@ -2,6 +2,8 @@ import { useState, useRef } from 'react'
 import * as XLSX from 'xlsx'
 import { BARCODE_TYPES } from '../utils/barcodeUtils'
 import { generateAllBarcodes } from '../utils/barcodeGenerator'
+import { findDuplicateGroups } from '../utils/barcodeValidator'
+import DuplicateSourceGate from './DuplicateSourceGate'
 
 const GEN_STEPS = ['Upload', 'Configure', 'Preview']
 
@@ -13,6 +15,10 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
   const [enrichedRows, setEnrichedRows] = useState(null)
   const [dragOver, setDragOver] = useState(false)
   const [code39Warning, setCode39Warning] = useState(false)
+  const [duplicateGroups, setDuplicateGroups] = useState(null)
+  // Column the duplicate check has already cleared, so it runs once and not again
+  const [checkedCol, setCheckedCol] = useState(null)
+  const [excludedRows, setExcludedRows] = useState([])
   const inputRef = useRef(null)
 
   function handleFile(file) {
@@ -38,8 +44,7 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
     reader.readAsArrayBuffer(file)
   }
 
-  function handleGenerate() {
-    if (!parsedData || !skuCol) return
+  function runGeneration(skip = excludedRows) {
     if (format === 'code39') {
       const hasInvalid = parsedData.rows.some(
         row => /[^A-Z0-9\-\.\$\/%\+\s]/i.test(String(row[skuCol] ?? ''))
@@ -48,10 +53,45 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
     } else {
       setCode39Warning(false)
     }
-    const rows = generateAllBarcodes(parsedData.rows, skuCol, format)
-    setEnrichedRows(rows)
+    const drop = new Set(skip)
+    const sourceRows = parsedData.rows.filter((_, i) => !drop.has(i))
+    setEnrichedRows(generateAllBarcodes(sourceRows, skuCol, format))
     setGenStep(2)
   }
+
+  function handleGenerate() {
+    if (!parsedData || !skuCol) return
+
+    // Already cleared for this column - don't ask again
+    if (checkedCol === skuCol) {
+      runGeneration()
+      return
+    }
+
+    const groups = findDuplicateGroups(parsedData.rows.map((r) => r[skuCol]))
+    if (groups.length === 0) {
+      setCheckedCol(skuCol)
+      setExcludedRows([])
+      runGeneration([])
+      return
+    }
+
+    setDuplicateGroups(groups)
+  }
+
+  function handleDuplicatesResolved({ excluded }) {
+    setDuplicateGroups(null)
+    setCheckedCol(skuCol)
+    setExcludedRows(excluded)
+    runGeneration(excluded)
+  }
+
+  // EAN-13 and UPC-A de-duplicate internally; Code 128 and Code 39 pass the
+  // source value straight through, so "keep all" really can emit repeats.
+  const generatedDuplicateCount = enrichedRows
+    ? findDuplicateGroups(enrichedRows.map((r) => r.GENERATED_BARCODE))
+        .reduce((n, g) => n + g.rows.length, 0)
+    : 0
 
   function handleDownload() {
     if (!enrichedRows) return
@@ -80,6 +120,15 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
 
   return (
     <div className="space-y-6">
+      {duplicateGroups && (
+        <DuplicateSourceGate
+          groups={duplicateGroups}
+          column={skuCol}
+          onProceed={handleDuplicatesResolved}
+          onCancel={() => setDuplicateGroups(null)}
+        />
+      )}
+
       {/* Header row */}
       <div className="flex items-center gap-3">
         <button
@@ -162,7 +211,7 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
             <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-3">SKU, product code, item number, etc.</p>
             <select
               value={skuCol}
-              onChange={(e) => setSkuCol(e.target.value)}
+              onChange={(e) => { setSkuCol(e.target.value); setExcludedRows([]) }}
               className="w-full p-2 border rounded-lg text-sm dark:bg-neutral-700 dark:border-neutral-600 dark:text-neutral-200"
             >
               {parsedData.headers.map((h) => (
@@ -250,7 +299,13 @@ export default function BarcodeGenerator({ onHandoff, onBack }) {
 
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-[#FFD700]"></div>
-            <p className="text-sm font-semibold dark:text-[#E8E8E8]">{enrichedRows.length} barcodes generated — all unique</p>
+            <p className="text-sm font-semibold dark:text-[#E8E8E8]">
+              {enrichedRows.length} barcodes generated
+              {generatedDuplicateCount === 0
+                ? ' — all unique'
+                : ` — ${generatedDuplicateCount} share a code with another row`}
+              {excludedRows.length > 0 && ` · ${excludedRows.length} row${excludedRows.length === 1 ? '' : 's'} excluded`}
+            </p>
           </div>
 
           {/* Be explicit about what these codes are for, before anyone prints a thousand of them. */}

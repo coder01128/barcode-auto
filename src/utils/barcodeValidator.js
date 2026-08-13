@@ -222,6 +222,36 @@ function findWarnings(rowIndex, raw, normalized, symbology) {
 }
 
 /**
+ * Rows that share a value, grouped. Comparison is on the normalized value:
+ * two rows differing only by a trailing space would scan identically at the
+ * till. Empty values are not treated as duplicates of each other - they are
+ * their own problem, reported as EMPTY.
+ *
+ * Shared by both entry points: the barcode-column gate and the generator's
+ * source-column check.
+ *
+ * @param {string[]} values  value per row, in row order
+ * @returns {{ value: string, rows: number[] }[]}  only groups of 2 or more
+ */
+export function findDuplicateGroups(values) {
+  const list = Array.isArray(values) ? values : []
+  const groups = new Map()
+
+  list.forEach((raw, i) => {
+    const norm = normalizeValue(raw)
+    if (norm === '') return
+    if (!groups.has(norm)) groups.set(norm, [])
+    groups.get(norm).push(i)
+  })
+
+  const out = []
+  groups.forEach((rows, value) => {
+    if (rows.length > 1) out.push({ value, rows })
+  })
+  return out
+}
+
+/**
  * @param {string[]} values     barcode column value per row, in row order
  * @param {string} symbology    one of: ean13 | upca | code128 | code39
  * @returns {{ blocked: object[], warned: object[], clean: number[] }}
@@ -230,11 +260,10 @@ export function validateBarcodeData(values, symbology) {
   const list = Array.isArray(values) ? values : []
   const normalized = list.map((v) => normalizeValue(v))
 
-  // Duplicates compare on the normalized value: two rows differing only by a
-  // trailing space would scan identically at the till.
-  const counts = new Map()
-  normalized.forEach((n) => {
-    if (n !== '') counts.set(n, (counts.get(n) || 0) + 1)
+  // rowIndex -> how many rows share this value
+  const dupSize = new Map()
+  findDuplicateGroups(list).forEach(({ rows }) => {
+    rows.forEach((r) => dupSize.set(r, rows.length))
   })
 
   const blocked = []
@@ -248,9 +277,9 @@ export function validateBarcodeData(values, symbology) {
     const structural = findBlockingIssue(i, raw, norm, symbology)
     if (structural) rowBlocked.push(structural)
 
-    if (norm !== '' && counts.get(norm) > 1) {
+    if (dupSize.has(i)) {
       rowBlocked.push(entry(i, raw, 'DUPLICATE',
-        `This barcode appears on ${counts.get(norm)} rows - duplicates make stock items indistinguishable at the till`, null))
+        `This barcode appears on ${dupSize.get(i)} rows - duplicates make stock items indistinguishable at the till`, null))
     }
 
     const rowWarnings = findWarnings(i, raw, norm, symbology)
