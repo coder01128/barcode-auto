@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import FileUpload from './components/FileUpload'
 import ColumnSelector from './components/ColumnSelector'
 import DimensionInput from './components/DimensionInput'
@@ -7,7 +7,9 @@ import LabelPreview from './components/LabelPreview'
 import SplashModal from './components/SplashModal'
 import LandingGate from './components/LandingGate'
 import BarcodeGenerator from './components/BarcodeGenerator'
+import ValidationGate from './components/ValidationGate'
 import { generateLabelPdf } from './utils/pdfGenerator'
+import { validateBarcodeData } from './utils/barcodeValidator'
 
 const STEPS = ['upload', 'columns', 'dimensions', 'layout', 'generate']
 
@@ -27,6 +29,12 @@ export default function App() {
   const [config, setConfig] = useState({})
   const [generating, setGenerating] = useState(false)
 
+  // Validation gate — sits between column mapping and the rest of the wizard
+  const [pendingValidation, setPendingValidation] = useState(null)
+  const [excludedRows, setExcludedRows] = useState([])
+  const [barcodeFixes, setBarcodeFixes] = useState({})
+  const [verified, setVerified] = useState(false)
+
   const [showSplash, setShowSplash] = useState(() => localStorage.getItem(SPLASH_KEY) !== 'true')
   const [appMode, setAppMode] = useState('gate') // 'gate' | 'generator' | 'wizard'
   const [fromGenerator, setFromGenerator] = useState(false)
@@ -43,20 +51,29 @@ export default function App() {
 
   const handleChooseGenerator = useCallback(() => setAppMode('generator'), [])
 
+  const resetValidation = useCallback(() => {
+    setPendingValidation(null)
+    setExcludedRows([])
+    setBarcodeFixes({})
+    setVerified(false)
+  }, [])
+
   const handleChooseWizard = useCallback(() => {
     setFromGenerator(false)
     setStep(0)
     setParsedData(null)
     setConfig({})
+    resetValidation()
     setAppMode('wizard')
-  }, [])
+  }, [resetValidation])
 
   const handleGeneratorHandoff = useCallback((enrichedData) => {
     setParsedData(enrichedData)
     setStep(1)
     setFromGenerator(true)
+    resetValidation()
     setAppMode('wizard')
-  }, [])
+  }, [resetValidation])
 
   const handleParsed = useCallback((data) => {
     setParsedData(data)
@@ -65,8 +82,29 @@ export default function App() {
 
   const handleColumns = useCallback((cols) => {
     setConfig((prev) => ({ ...prev, ...cols }))
+    setExcludedRows([])
+    setBarcodeFixes({})
+    setVerified(false)
+
+    const values = (parsedData?.rows ?? []).map((r) => String(r[cols.barcodeCol] ?? ''))
+    const result = validateBarcodeData(values, cols.barcodeType)
+
+    // Clean data never sees the gate
+    if (result.blocked.length === 0 && result.warned.length === 0) {
+      setStep(2)
+    } else {
+      setPendingValidation({ result, symbology: cols.barcodeType })
+    }
+  }, [parsedData])
+
+  const handleGateProceed = useCallback(({ excluded, fixes }) => {
+    setExcludedRows(excluded)
+    setBarcodeFixes(fixes)
+    setPendingValidation(null)
     setStep(2)
   }, [])
+
+  const handleGateCancel = useCallback(() => setPendingValidation(null), [])
 
   const handleDimensions = useCallback((dims) => {
     setConfig((prev) => ({ ...prev, dimensions: dims }))
@@ -78,11 +116,24 @@ export default function App() {
     setStep(4)
   }, [])
 
+  // Rows actually sent to the PDF: gate exclusions removed, accepted fixes applied
+  const effectiveRows = useMemo(() => {
+    if (!parsedData) return []
+    const skip = new Set(excludedRows)
+    const out = []
+    parsedData.rows.forEach((row, i) => {
+      if (skip.has(i)) return
+      const fix = barcodeFixes[i]
+      out.push(fix !== undefined && config.barcodeCol ? { ...row, [config.barcodeCol]: fix } : row)
+    })
+    return out
+  }, [parsedData, excludedRows, barcodeFixes, config.barcodeCol])
+
   const handleGenerate = useCallback(() => {
     setGenerating(true)
     try {
       const result = generateLabelPdf({
-        rows: parsedData.rows,
+        rows: effectiveRows,
         barcodeCol: config.barcodeCol,
         barcodeType: config.barcodeType,
         layout: config.layout,
@@ -102,7 +153,7 @@ export default function App() {
       alert('Error generating PDF: ' + err.message)
     }
     setGenerating(false)
-  }, [parsedData, config])
+  }, [effectiveRows, config])
 
   const handleBack = useCallback(() => {
     if (step === 0 || (fromGenerator && step === 1)) {
@@ -111,28 +162,41 @@ export default function App() {
       setStep(0)
       setParsedData(null)
       setConfig({})
+      resetValidation()
     } else {
+      setVerified(false)
       setStep((s) => Math.max(0, s - 1))
     }
-  }, [step, fromGenerator])
+  }, [step, fromGenerator, resetValidation])
 
   const handleReset = useCallback(() => {
     setStep(0)
     setParsedData(null)
     setConfig({})
+    resetValidation()
     setAppMode('gate')
     setFromGenerator(false)
-  }, [])
+  }, [resetValidation])
 
-  const rowCount = parsedData?.rows.length || 0
+  const rowCount = effectiveRows.length
+  const excludedCount = excludedRows.length
   const hasQty = config.qtyCol && config.useQty
   const totalLabels = hasQty
-    ? parsedData?.rows.reduce((sum, r) => sum + (parseInt(r[config.qtyCol], 10) || 1), 0) || 0
+    ? effectiveRows.reduce((sum, r) => sum + (parseInt(r[config.qtyCol], 10) || 1), 0)
     : rowCount
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#111111] transition-colors">
       {showSplash && <SplashModal onDismiss={handleSplashDismiss} />}
+
+      {pendingValidation && (
+        <ValidationGate
+          result={pendingValidation.result}
+          symbology={pendingValidation.symbology}
+          onProceed={handleGateProceed}
+          onCancel={handleGateCancel}
+        />
+      )}
 
       {/* Header */}
       <header className="bg-primary text-white shadow-lg">
@@ -236,18 +300,42 @@ export default function App() {
               )}
               {step === 4 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-bold dark:text-[#E8E8E8]">Generate your labels</h2>
+                  <h2 className="text-xl font-bold dark:text-[#E8E8E8]">
+                    {verified ? 'Generate your labels' : 'Check one label before printing the roll'}
+                  </h2>
                   <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                    Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}.
+                    Generating {hasQty ? `${totalLabels} labels from ${rowCount} rows` : `${rowCount} labels`}
+                    {excludedCount > 0 && ` (${excludedCount} row${excludedCount === 1 ? '' : 's'} excluded)`}.
                     {' '}PDF includes 1 blank calibration page for thermal printer alignment.
                   </p>
+
+                  {!verified && (
+                    <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                      Scan this one with your reader first. If it comes up short at this size, you will
+                      find out now instead of at label {Math.min(400, totalLabels || 1)}.
+                    </p>
+                  )}
+
                   <LabelPreview
                     layout={config.layout}
                     dimensions={config.dimensions}
-                    rows={parsedData?.rows}
+                    rows={effectiveRows}
                     barcodeCol={config.barcodeCol}
                     barcodeType={config.barcodeType}
+                    minWidth={verified ? undefined : 320}
+                    title={verified ? 'Label preview' : 'Verify this label'}
                   />
+
+                  {!verified && (
+                    <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 p-4">
+                      <div className="text-[13px] font-medium text-neutral-500 dark:text-neutral-400 mb-1">
+                        Encoded value
+                      </div>
+                      <code className="font-mono text-sm break-all text-neutral-800 dark:text-neutral-100">
+                        {String(effectiveRows[0]?.[config.barcodeCol] ?? '')}
+                      </code>
+                    </div>
+                  )}
 
                   <div className="flex gap-3">
                     <button
@@ -256,15 +344,29 @@ export default function App() {
                     >
                       Back
                     </button>
-                    <button
-                      onClick={handleGenerate}
-                      disabled={generating}
-                      className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97] flex items-center gap-2 ${
-                        generating ? 'opacity-70 cursor-wait' : ''
-                      }`}
-                    >
-                      {generating ? 'Generating...' : `Download PDF (${totalLabels || rowCount} labels)`}
-                    </button>
+                    {verified ? (
+                      <button
+                        onClick={handleGenerate}
+                        disabled={generating}
+                        className={`px-8 py-2 bg-accent text-white rounded-lg font-semibold hover:bg-[#d96c1e] hover:shadow-md transition-all duration-200 active:scale-[0.97] flex items-center gap-2 ${
+                          generating ? 'opacity-70 cursor-wait' : ''
+                        }`}
+                      >
+                        {generating ? 'Generating...' : `Download PDF (${totalLabels || rowCount} labels)`}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => setVerified(true)}
+                        disabled={rowCount === 0}
+                        className={`px-8 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                          rowCount === 0
+                            ? 'bg-neutral-300 dark:bg-neutral-600 text-neutral-500 dark:text-neutral-400 cursor-not-allowed'
+                            : 'bg-accent text-white hover:bg-[#d96c1e] hover:shadow-md active:scale-[0.97]'
+                        }`}
+                      >
+                        Looks good, generate all
+                      </button>
+                    )}
                   </div>
                 </div>
               )}

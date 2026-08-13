@@ -26,7 +26,6 @@ export function generateBarcodeValue(sku, format, usedCodes) {
   const str = String(sku).trim()
 
   if (format === 'code128') return str
-  if (format === 'qrcode') return str
   if (format === 'code39') {
     const cleaned = str.toUpperCase().replace(/[^A-Z0-9\-\.\$\/%\+\s]/g, '')
     return cleaned || str.slice(0, 10).toUpperCase()

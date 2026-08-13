@@ -64,6 +64,9 @@ export function generateLabelPdf({ rows, barcodeCol, barcodeType, layout, dimens
             const dataUrl = canvas.toDataURL('image/png', 1.0)
             doc.addImage(dataUrl, 'PNG', el.x, el.y, el.width, el.height)
           } catch (e) {
+            // Validation should stop bad values before they reach here.
+            // If this fires, the gate missed something — make it loud in dev.
+            console.error(`Barcode render failed for "${barcodeValue}" (${barcodeType}):`, e)
             doc.setFontSize(10)
             doc.text(barcodeValue, el.x, el.y + 15)
           }
@@ -86,7 +89,6 @@ function getJsBarcodeFormat(format) {
     upca: 'UPC-A',
     code128: 'CODE128',
     code39: 'CODE39',
-    qrcode: 'CODE128',
   }
   return map[format] || 'CODE128'
 }

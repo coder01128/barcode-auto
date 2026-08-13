@@ -19,7 +19,7 @@ Local path: `C:\ccode\git-repos\barcode-auto`
 - React + Vite
 - Single-page app with a step wizard (Upload → Columns → Dimensions → Layout → Generate)
 - Spreadsheet parsing: SheetJS (xlsx)
-- Barcode rendering: JsBarcode (EAN-13, Code 128, UPC-A, Code 39) + qrcode library for QR
+- Barcode rendering: JsBarcode (EAN-13, Code 128, UPC-A, Code 39). Linear only — there is no QR support and no QR library
 - PDF generation: jsPDF
 - 100% client-side — zero server calls, zero data uploads. This is a hard rule. Never add fetch/API calls to external services.
 
@@ -43,7 +43,10 @@ The app has a free tier of 1,000 labels. A counter in the top-right shows remain
 - Code 128
 - UPC-A
 - Code 39
-- QR Code
+
+QR Code was listed here and in the UI but was never implemented — it silently
+rendered a Code 128 linear barcode. Removed. Adding it would need a new
+dependency and 2D rendering in both the PDF and preview paths.
 
 ## File Structure (key paths)
 

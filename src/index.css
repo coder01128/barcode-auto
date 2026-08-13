@@ -15,9 +15,11 @@
 
 :root {
   --color-accent-text: #B05E1A;
+  --color-danger-text: #C62828;
 }
 .dark {
   --color-accent-text: #E87A2D;
+  --color-danger-text: #F87171;
 }
 
 body {

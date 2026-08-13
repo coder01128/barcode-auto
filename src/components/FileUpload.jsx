@@ -13,9 +13,11 @@ export default function FileUpload({ onParsed }) {
     reader.onload = (e) => {
       try {
         const data = new Uint8Array(e.target.result)
-        const workbook = XLSX.read(data, { type: 'array' })
+        const workbook = XLSX.read(data, { type: 'array', raw: false })
         const sheet = workbook.Sheets[workbook.SheetNames[0]]
-        const json = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+        // raw:false forces formatted text so leading zeros, scientific-notation
+        // strings and long numerics survive as literal strings
+        const json = XLSX.utils.sheet_to_json(sheet, { defval: '', raw: false })
         if (!json || json.length === 0) {
           alert('No data found in file')
           return

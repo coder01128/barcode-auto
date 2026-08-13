@@ -4,7 +4,7 @@ import { scaleLayoutToLabel, autoScaleContent } from '../utils/layoutEngine'
 
 const PT_TO_MM = 0.3528
 
-export default function LabelPreview({ layout, dimensions, rows, barcodeCol, barcodeType }) {
+export default function LabelPreview({ layout, dimensions, rows, barcodeCol, barcodeType, minWidth, title = 'Label preview' }) {
   if (!layout || !dimensions) return null
 
   const sampleRow = rows?.[0] ?? {}
@@ -14,16 +14,18 @@ export default function LabelPreview({ layout, dimensions, rows, barcodeCol, bar
   const scaled = scaleLayoutToLabel(layout, dimensions)
   const { elements } = autoScaleContent(scaled, dimensions)
 
-  const formatMap = { ean13: 'EAN13', upca: 'UPC-A', code128: 'CODE128', code39: 'CODE39', qrcode: 'CODE128' }
+  const formatMap = { ean13: 'EAN13', upca: 'UPC-A', code128: 'CODE128', code39: 'CODE39' }
   const barcodeFormat = formatMap[barcodeType] || 'CODE128'
 
-  const scale = Math.min(500 / dimensions.width, 400 / dimensions.height, 6)
+  const baseScale = Math.min(500 / dimensions.width, 400 / dimensions.height, 6)
+  // minWidth lets the verify-one step render big enough to actually test-scan
+  const scale = minWidth ? Math.max(baseScale, minWidth / dimensions.width) : baseScale
   const svgW = dimensions.width * scale
   const svgH = dimensions.height * scale
 
   return (
     <div className="bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 p-4 min-w-[400px]">
-      <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">Label preview</h3>
+      <h3 className="font-semibold mb-2 dark:text-[#E8E8E8]">{title}</h3>
       <svg viewBox={`0 0 ${dimensions.width} ${dimensions.height}`} width={svgW} height={svgH} className="border mx-auto bg-white">
         <rect width={dimensions.width} height={dimensions.height} fill="white" />
         {elements.map((el, i) => {
