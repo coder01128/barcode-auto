@@ -10,58 +10,63 @@ export default function LandingGate({ onNeedBarcodes, onHaveBarcodes, onSampleNe
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-        <div className="flex flex-col p-6 rounded-xl border-2 border-[#FFD700] bg-[#FFD700]/5 hover:bg-[#FFD700]/10 transition-all duration-200">
-          <button
-            onClick={onNeedBarcodes}
-            className="text-left w-full"
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-[#FFD700]/20 flex items-center justify-center shrink-0">
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#FFD700" className="w-5 h-5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-              </div>
-              <span className="text-lg font-bold text-primary dark:text-[#E8E8E8]">I need barcodes</span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 mt-2">
+        <button
+          onClick={onNeedBarcodes}
+          className="text-left p-6 rounded-xl border-2 border-[#FFD700] bg-[#FFD700]/5 hover:bg-[#FFD700]/10 hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] transition-all duration-200 active:scale-[0.98]"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-full bg-[#FFD700]/20 flex items-center justify-center shrink-0">
+              <svg fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#FFD700" className="w-5 h-5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
             </div>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              Generate unique barcodes from your product list (SKU, product code, etc.), then create labels.
-            </p>
-          </button>
+            <span className="text-lg font-bold text-primary dark:text-[#E8E8E8]">I need barcodes</span>
+          </div>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Generate unique barcodes from your product list, then create labels.
+          </p>
+        </button>
+
+        <button
+          onClick={onHaveBarcodes}
+          className="text-left p-6 rounded-xl border-2 border-neutral-300 dark:border-neutral-600 hover:border-accent dark:hover:border-accent hover:shadow-md transition-all duration-200 active:scale-[0.98]"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+              <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-accent">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75z" />
+              </svg>
+            </div>
+            <span className="text-lg font-bold text-primary dark:text-[#E8E8E8]">I already have barcodes</span>
+          </div>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            Your spreadsheet already has barcode numbers. Jump straight to building labels.
+          </p>
+        </button>
+
+        <div>
           <button
             onClick={onSampleNeedBarcodes}
             disabled={loadingSample}
-            className="mt-4 w-full py-2.5 px-4 rounded-lg border-2 border-[#FFD700] text-[#B8960C] dark:text-[#FFD700] font-bold text-sm hover:bg-[#FFD700] hover:text-[#2D2D2D] transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:cursor-wait"
+            className="w-full py-2.5 px-4 rounded-lg border-2 border-[#FFD700] text-[#B8960C] dark:text-[#FFD700] font-bold text-sm hover:bg-[#FFD700] hover:text-[#2D2D2D] transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:cursor-wait"
           >
             {loadingSample === 'need' ? 'Loading...' : 'Try with sample data'}
           </button>
         </div>
 
-        <div className="flex flex-col p-6 rounded-xl border-2 border-neutral-300 dark:border-neutral-600 hover:border-accent dark:hover:border-accent hover:shadow-md transition-all duration-200">
-          <button
-            onClick={onHaveBarcodes}
-            className="text-left w-full"
-          >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-                <svg fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-accent">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75z" />
-                </svg>
-              </div>
-              <span className="text-lg font-bold text-primary dark:text-[#E8E8E8]">I already have barcodes</span>
-            </div>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-              Your spreadsheet already has barcode numbers. Jump straight to building labels.
-            </p>
-          </button>
+        <div>
           <button
             onClick={onSampleHaveBarcodes}
             disabled={loadingSample}
-            className="mt-4 w-full py-2.5 px-4 rounded-lg border-2 border-[#FFD700] text-[#B8960C] dark:text-[#FFD700] font-bold text-sm hover:bg-[#FFD700] hover:text-[#2D2D2D] transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:cursor-wait"
+            className="w-full py-2.5 px-4 rounded-lg border-2 border-[#FFD700] text-[#B8960C] dark:text-[#FFD700] font-bold text-sm hover:bg-[#FFD700] hover:text-[#2D2D2D] transition-all duration-200 active:scale-[0.97] disabled:opacity-50 disabled:cursor-wait"
           >
             {loadingSample === 'have' ? 'Loading...' : 'Try with sample data'}
           </button>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-green-600 dark:text-green-400 text-center mt-1">
+            Sample includes invalid barcodes to demo error detection
+          </p>
         </div>
       </div>
 
