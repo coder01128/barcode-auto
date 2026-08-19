@@ -8,8 +8,22 @@ import SplashModal from './components/SplashModal'
 import LandingGate from './components/LandingGate'
 import BarcodeGenerator from './components/BarcodeGenerator'
 import ValidationGate from './components/ValidationGate'
+import * as XLSX from 'xlsx'
 import { generateLabelPdf } from './utils/pdfGenerator'
 import { validateBarcodeData } from './utils/barcodeValidator'
+import { decodeFileBuffer } from './utils/decodeFileBuffer'
+
+async function loadSampleCSV(filename) {
+  const res = await fetch(`${import.meta.env.BASE_URL}samples/${filename}`)
+  const buffer = await res.arrayBuffer()
+  const decoded = decodeFileBuffer(buffer)
+  const workbook = decoded.mode === 'binary'
+    ? XLSX.read(decoded.data, { type: 'array', raw: false })
+    : XLSX.read(decoded.data, { type: 'string', raw: false })
+  const sheet = workbook.Sheets[workbook.SheetNames[0]]
+  const json = XLSX.utils.sheet_to_json(sheet, { defval: '', raw: false })
+  return { headers: Object.keys(json[0]), rows: json }
+}
 
 const STEPS = ['upload', 'columns', 'dimensions', 'layout', 'generate']
 
@@ -38,6 +52,8 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(() => localStorage.getItem(SPLASH_KEY) !== 'true')
   const [appMode, setAppMode] = useState('gate') // 'gate' | 'generator' | 'wizard'
   const [fromGenerator, setFromGenerator] = useState(false)
+  const [generatorInitialData, setGeneratorInitialData] = useState(null)
+  const [loadingSample, setLoadingSample] = useState(null)
 
   const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')
 
@@ -65,6 +81,33 @@ export default function App() {
     setConfig({})
     resetValidation()
     setAppMode('wizard')
+  }, [resetValidation])
+
+  const handleSampleNeedBarcodes = useCallback(async () => {
+    setLoadingSample('need')
+    try {
+      const data = await loadSampleCSV('sample-need-barcodes.csv')
+      setGeneratorInitialData(data)
+      setAppMode('generator')
+    } catch (err) {
+      alert('Could not load sample data: ' + err.message)
+    }
+    setLoadingSample(null)
+  }, [])
+
+  const handleSampleHaveBarcodes = useCallback(async () => {
+    setLoadingSample('have')
+    try {
+      const data = await loadSampleCSV('sample-have-barcodes.csv')
+      setFromGenerator(false)
+      resetValidation()
+      setParsedData(data)
+      setStep(1)
+      setAppMode('wizard')
+    } catch (err) {
+      alert('Could not load sample data: ' + err.message)
+    }
+    setLoadingSample(null)
   }, [resetValidation])
 
   const handleGeneratorHandoff = useCallback((enrichedData) => {
@@ -176,6 +219,7 @@ export default function App() {
     resetValidation()
     setAppMode('gate')
     setFromGenerator(false)
+    setGeneratorInitialData(null)
   }, [resetValidation])
 
   const rowCount = effectiveRows.length
@@ -267,11 +311,21 @@ export default function App() {
       <main className="max-w-[800px] mx-auto px-4 pb-16">
         <div className="bg-white dark:bg-neutral-800 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-700 p-6 transition-colors">
           {appMode === 'gate' && (
-            <LandingGate onNeedBarcodes={handleChooseGenerator} onHaveBarcodes={handleChooseWizard} />
+            <LandingGate
+              onNeedBarcodes={handleChooseGenerator}
+              onHaveBarcodes={handleChooseWizard}
+              onSampleNeedBarcodes={handleSampleNeedBarcodes}
+              onSampleHaveBarcodes={handleSampleHaveBarcodes}
+              loadingSample={loadingSample}
+            />
           )}
 
           {appMode === 'generator' && (
-            <BarcodeGenerator onHandoff={handleGeneratorHandoff} onBack={() => setAppMode('gate')} />
+            <BarcodeGenerator
+              onHandoff={handleGeneratorHandoff}
+              onBack={() => { setGeneratorInitialData(null); setAppMode('gate') }}
+              initialData={generatorInitialData}
+            />
           )}
 
           {appMode === 'wizard' && (

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import * as XLSX from 'xlsx'
 import { BARCODE_TYPES } from '../utils/barcodeUtils'
 import { generateAllBarcodes } from '../utils/barcodeGenerator'
@@ -8,10 +8,10 @@ import DuplicateSourceGate from './DuplicateSourceGate'
 
 const GEN_STEPS = ['Upload', 'Configure', 'Preview']
 
-export default function BarcodeGenerator({ onHandoff, onBack }) {
-  const [genStep, setGenStep] = useState(0)
-  const [parsedData, setParsedData] = useState(null)
-  const [skuCol, setSkuCol] = useState('')
+export default function BarcodeGenerator({ onHandoff, onBack, initialData }) {
+  const [genStep, setGenStep] = useState(initialData ? 1 : 0)
+  const [parsedData, setParsedData] = useState(initialData || null)
+  const [skuCol, setSkuCol] = useState(initialData ? initialData.headers[0] : '')
   const [format, setFormat] = useState('ean13')
   const [enrichedRows, setEnrichedRows] = useState(null)
   const [dragOver, setDragOver] = useState(false)

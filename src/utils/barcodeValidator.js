@@ -128,8 +128,11 @@ function findBlockingIssue(rowIndex, raw, normalized, symbology) {
 
   if (symbology === 'ean13') {
     if (!/^\d{12,13}$/.test(normalized)) {
-      return entry(rowIndex, raw, 'EAN13_LENGTH',
-        `EAN-13 needs exactly 12 or 13 digits - this has ${normalized.length} character${plural(normalized.length)}`, null)
+      const nonDigits = normalized.replace(/\d/g, '')
+      const msg = nonDigits.length > 0
+        ? `EAN-13 allows digits only - found non-digit character${plural(nonDigits.length)}: ${quoteList([...nonDigits])}`
+        : `EAN-13 needs exactly 12 or 13 digits - this has ${normalized.length}`
+      return entry(rowIndex, raw, 'EAN13_FORMAT', msg, null)
     }
     if (normalized.length === 13 && !hasValidCheckDigit(normalized)) {
       const correct = checkDigit(normalized.slice(0, 12))
@@ -141,8 +144,11 @@ function findBlockingIssue(rowIndex, raw, normalized, symbology) {
 
   if (symbology === 'upca') {
     if (!/^\d{11,12}$/.test(normalized)) {
-      return entry(rowIndex, raw, 'UPCA_LENGTH',
-        `UPC-A needs exactly 11 or 12 digits - this has ${normalized.length} character${plural(normalized.length)}`, null)
+      const nonDigits = normalized.replace(/\d/g, '')
+      const msg = nonDigits.length > 0
+        ? `UPC-A allows digits only - found non-digit character${plural(nonDigits.length)}: ${quoteList([...nonDigits])}`
+        : `UPC-A needs exactly 11 or 12 digits - this has ${normalized.length}`
+      return entry(rowIndex, raw, 'UPCA_FORMAT', msg, null)
     }
     if (normalized.length === 12 && !hasValidCheckDigit(normalized)) {
       const correct = checkDigit(normalized.slice(0, 11))
