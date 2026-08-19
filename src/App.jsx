@@ -55,7 +55,7 @@ export default function App() {
   const [generatorInitialData, setGeneratorInitialData] = useState(null)
   const [loadingSample, setLoadingSample] = useState(null)
 
-  const [dark, setDark] = useState(() => localStorage.getItem('theme') === 'dark')
+  const [dark, setDark] = useState(() => localStorage.getItem('theme') !== 'light')
 
   useEffect(() => {
     if (dark) document.documentElement.classList.add('dark')
