@@ -2,9 +2,7 @@
 
 Convert spreadsheet stock lists into print-ready thermal barcode label PDFs. Upload a `.csv` or `.xlsx`, map columns to barcode fields, set label dimensions for your printer, and download a PDF — all in the browser. Nothing is uploaded to a server.
 
-**Live:** [barcode-auto.vercel.app](https://barcode-auto.vercel.app)
-
----
+**Live:** [barcode-auto.vercel.app](https://barcode-auto.vercel.app/)
 
 ## What it does
 
@@ -18,8 +16,28 @@ Supports EAN-13, Code 128, UPC-A, and Code 39. Linear symbologies only.
 
 ## Why it exists
 
-Built for a fashion retail business that was running a 30-minute Bartender → LibreOffice → manual-edit workflow every time new stock arrived. BarcodeAuto replaced it with a sub-minute automated path and catches barcode errors before printing rather than after.
+Built for a fashion retail business that was running a 30-minute Bartender / LibreOffice / manual-edit workflow every time new stock arrived. BarcodeAuto replaced it with a sub-minute automated path and catches barcode errors before printing rather than after.
 
 ## Architecture
 
 React + Vite single-page app. Everything runs client-side — no server calls, no data uploads. The privacy promise is a hard rule, not a convenience.
+
+Key libraries: SheetJS (spreadsheet parsing), JsBarcode (barcode rendering), jsPDF (PDF output).
+
+The source is organised as:
+
+* `src/components/` — UI: wizard steps, validation gate, barcode generator
+* `src/utils/` — PDF generation, barcode rendering, validation logic, layout engine
+
+## Run locally
+
+```
+npm install
+npm run dev
+```
+
+Dev server starts at http://localhost:5173
+
+## Deploy
+
+Deployed to Vercel. Push to `main` triggers a production build.
