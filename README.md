@@ -1,16 +1,25 @@
-# React + Vite
+# BarcodeAuto
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Convert spreadsheet stock lists into print-ready thermal barcode label PDFs. Upload a `.csv` or `.xlsx`, map columns to barcode fields, set label dimensions for your printer, and download a PDF — all in the browser. Nothing is uploaded to a server.
 
-Currently, two official plugins are available:
+**Live:** [barcode-auto.vercel.app](https://barcode-auto.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Upload** — drop a spreadsheet (CSV, XLSX, XLS). Encoding is auto-detected, including UTF-8 and legacy codepages.
+2. **Map columns** — pick which columns hold the barcode value, product name, price, and size.
+3. **Validate** — every barcode is checked against its symbology's rules (digit count, check digits, character sets). Malformed codes are flagged before they reach the printer, not after.
+4. **Set dimensions** — choose label width, height, and gap to match your thermal roll.
+5. **Generate** — download a print-ready PDF laid out for your label printer.
 
-## Expanding the ESLint configuration
+Supports EAN-13, Code 128, UPC-A, and Code 39. Linear symbologies only.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Why it exists
+
+Built for a fashion retail business that was running a 30-minute Bartender → LibreOffice → manual-edit workflow every time new stock arrived. BarcodeAuto replaced it with a sub-minute automated path and catches barcode errors before printing rather than after.
+
+## Architecture
+
+React + Vite single-page app. Everything runs client-side — no server calls, no data uploads. The privacy promise is a hard rule, not a convenience.
